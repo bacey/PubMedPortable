@@ -104,3 +104,12 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# PyCharm IDE
+.idea/
+
+# backup files
+*~
+.*~
+
+tmp/
