@@ -42,6 +42,13 @@ class MedlineParser:
         self.session = Session()
 
 
+    def shorten(self, string, max_length):
+        if string is None or len(string) < max_length:
+            return string
+        else:
+            return string[:max_length - 4] + '...'
+
+
     def _parse(self):
         _file = self.filepath
 
@@ -607,7 +614,7 @@ class MedlineParser:
                         else:
                             continue
                         DBKeyword = PubMedDB.Keyword()
-                        DBKeyword.keyword = subelem.text
+                        DBKeyword.keyword = self.shorten(subelem.text, 500)
                         #catch KeyError in case there is no MajorTopicYN attribute before committing DBCitation
                         try:
                             DBKeyword.keyword_major_yn = subelem.attrib["MajorTopicYN"]
