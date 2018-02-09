@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2018//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_180101.dtd">
+<PubmedArticleSet>
+  <PubmedArticle>
+    <MedlineCitation Status="PubMed-not-MEDLINE" Owner="NLM">
+      <PMID Version="1">29163864</PMID>
+      <DateRevised>
+        <Year>2017</Year>
+        <Month>11</Month>
+        <Day>26</Day>
+      </DateRevised>
+      <Article PubModel="Electronic-eCollection">
+        <Journal>
+          <ISSN IssnType="Print">2000-8066</ISSN>
+          <JournalIssue CitedMedium="Print">
+            <Volume>8</Volume>
+            <Issue>1</Issue>
+            <PubDate>
+              <Year>2017</Year>
+            </PubDate>
+          </JournalIssue>
+          <Title>European journal of psychotraumatology</Title>
+          <ISOAbbreviation>Eur J Psychotraumatol</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Pathways into mental health care for UK veterans: a qualitative study.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>1389207</MedlinePgn>
+        </Pagination>
+        <ELocationID EIdType="doi" ValidYN="Y">10.1080/20008198.2017.1389207</ELocationID>
+        <Abstract>
+          <AbstractText><b>Background</b>: It is well established that veterans suffering from mental health difficulties under use mental health services. <b>Objective</b>: This study aimed to understand more about the barriers that prevent veterans from seeking professional help and the enablers that assist veterans in seeking professional help. It also aimed to explore potential mechanisms to improve veterans' help-seeking and pathways to care. <b>Method</b>: The study employed a qualitative design whereby 17 veterans who had recently attended specialist veteran mental health services took part in semi-structured interviews. The resultant data were analysed using grounded theory. <b>Results</b>: Participants described two distinct stages to their help-seeking: initial help-seeking and pathways through treatment. Specific barriers and enablers to help-seeking were identified at each stage. Initial barriers included recognizing that there is a problem, self-stigma and anticipated public stigma. Initial enablers included being in crisis, social support, motivation and the media. Treatment pathway barriers included practical factors and negative beliefs about health services and professionals. Treatment pathway enablers included having a diagnosis, being seen in a veteran-specific service and establishing a good therapeutic relationship. Participants provided some suggestions for interventions to improve veterans' help-seeking in future; these focussed on enhancing both veterans and health professionals' knowledge regarding mental health difficulties. <b>Conclusions</b>: This study identified a number of barriers and enablers that may impact a veteran's journey in seeking help from professional services for mental health difficulties. Enablers such as reaching a crisis point, social support, the media, having a diagnosis of PTSD and veteran-specific mental health services appeared to be important in opposing stigma-related beliefs and in supporting veterans to engage in help-seeking behaviours.</AbstractText>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Mellotte</LastName>
+            <ForeName>Harriet</ForeName>
+            <Initials>H</Initials>
+            <Identifier Source="ORCID">0000-0002-4519-7746</Identifier>
+            <AffiliationInfo>
+              <Affiliation>Doctorate in Clinical Psychology, Addiction Sciences Building, Institute of Psychiatry, Psychology and Neuroscience, King's College London, UK.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Murphy</LastName>
+            <ForeName>Dominic</ForeName>
+            <Initials>D</Initials>
+            <Identifier Source="ORCID">0000-0002-9596-6603</Identifier>
+            <AffiliationInfo>
+              <Affiliation>King's Centre for Military Health Research, Weston Education Centre, King's College London, London, UK.</Affiliation>
+            </AffiliationInfo>
+            <AffiliationInfo>
+              <Affiliation>Combat Stress, Tyrwhitt House, Leatherhead, Surrey, UK.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Rafferty</LastName>
+            <ForeName>Laura</ForeName>
+            <Initials>L</Initials>
+            <Identifier Source="ORCID">0000-0003-4095-0222</Identifier>
+            <AffiliationInfo>
+              <Affiliation>King's Centre for Military Health Research, Weston Education Centre, King's College London, London, UK.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Greenberg</LastName>
+            <ForeName>Neil</ForeName>
+            <Initials>N</Initials>
+            <Identifier Source="ORCID">0000-0002-9891-6601</Identifier>
+            <AffiliationInfo>
+              <Affiliation>King's Centre for Military Health Research, Weston Education Centre, King's College London, London, UK.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+        </PublicationTypeList>
+        <ArticleDate DateType="Electronic">
+          <Year>2017</Year>
+          <Month>10</Month>
+          <Day>25</Day>
+        </ArticleDate>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>United States</Country>
+        <MedlineTA>Eur J Psychotraumatol</MedlineTA>
+        <NlmUniqueID>101559025</NlmUniqueID>
+        <ISSNLinking>2000-8066</ISSNLinking>
+      </MedlineJournalInfo>
+      <CommentsCorrectionsList>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>J Gen Intern Med. 2001 Sep;16(9):606-13</RefSource>
+          <PMID Version="1">11556941</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Eur J Psychotraumatol. 2014 Feb 17;5:null</RefSource>
+          <PMID Version="1">24624262</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Eur J Psychotraumatol. 2010;1:null</RefSource>
+          <PMID Version="1">22893795</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>JAMA. 1984 Oct 12;252(14):1905-7</RefSource>
+          <PMID Version="1">6471323</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Arch Intern Med. 1998 Sep 14;158(16):1789-95</RefSource>
+          <PMID Version="1">9738608</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Psychol Med. 2017 Aug;47(11):1880-1892</RefSource>
+          <PMID Version="1">28290262</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Clin Psychol Rev. 2012 Dec;32(8):741-53</RefSource>
+          <PMID Version="1">23063627</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>BMC Health Serv Res. 2011 Feb 10;11:31</RefSource>
+          <PMID Version="1">21310027</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>J Nerv Ment Dis. 2011 Oct;199(10):797-801</RefSource>
+          <PMID Version="1">21964275</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Behav Res Ther. 1996 Aug;34(8):669-73</RefSource>
+          <PMID Version="1">8870294</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>J Anxiety Disord. 2014 Aug;28(6):547-52</RefSource>
+          <PMID Version="1">24983795</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Mil Med. 1994 Sep;159(9):602-5</RefSource>
+          <PMID Version="1">7800175</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Mil Med. 2008 Jun;173(6):563-9</RefSource>
+          <PMID Version="1">18595420</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Psychol Serv. 2012 Feb;9(1):26-37</RefSource>
+          <PMID Version="1">22449085</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Clin Psychol Rev. 2017 Mar;52:52-68</RefSource>
+          <PMID Version="1">28013081</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Adv Mind Body Med. 2004 Spring;20(1):18-29</RefSource>
+          <PMID Version="1">15068106</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Arch Intern Med. 2006 May 22;166(10):1092-7</RefSource>
+          <PMID Version="1">16717171</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Br J Psychiatry. 2014 Feb;204(2):93-5</RefSource>
+          <PMID Version="1">24493652</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Ann N Y Acad Sci. 1997 Jun 21;821:372-87</RefSource>
+          <PMID Version="1">9238218</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Mil Med. 2004 Mar;169(3):243-50</RefSource>
+          <PMID Version="1">15080247</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Eur J Psychotraumatol. 2012;3:null</RefSource>
+          <PMID Version="1">23233869</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Med Care. 2002 Jan;40(1 Suppl):I62-71</RefSource>
+          <PMID Version="1">11789633</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Epidemiol Rev. 2015 ;37:144-62</RefSource>
+          <PMID Version="1">25595168</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Br J Psychiatry. 2005 Jun;186:480-6</RefSource>
+          <PMID Version="1">15928358</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Qual Life Res. 2012 Feb;21(1):99-103</RefSource>
+          <PMID Version="1">21516356</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>J Clin Psychiatry. 2000;61 Suppl 5:4-12; discussion 13-4</RefSource>
+          <PMID Version="1">10761674</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Psychiatry. 2009 Fall;72(3):238-55</RefSource>
+          <PMID Version="1">19821647</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Mil Med. 2007 Feb;172(2):157-61</RefSource>
+          <PMID Version="1">17357770</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Psychol Serv. 2014 Nov;11(4):486-94</RefSource>
+          <PMID Version="1">25384001</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Br J Gen Pract. 2008 Jan;58(546):32-6</RefSource>
+          <PMID Version="1">18186994</PMID>
+        </CommentsCorrections>
+        <CommentsCorrections RefType="Cites">
+          <RefSource>Psychiatr Serv. 2011 Feb;62(2):135-42</RefSource>
+          <PMID Version="1">21285091</PMID>
+        </CommentsCorrections>
+      </CommentsCorrectionsList>
+      <OtherAbstract Type="Publisher" Language="spa">
+        <AbstractText><b>Planteamiento</b>: Está bien establecido que los veteranos que sufren de problemas de salud mental infrautilizan los servicios de salud mental. <b>Objetivo</b>: Este estudio estaba dirigido a comprender más sobre las barreras que impiden que los veteranos busquen ayuda profesional y aquello que les facilita su búsqueda de ayuda profesional. También tenía como objetivo explorar posibles mecanismos para mejorar la búsqueda de ayuda y las vías que llevan a dicha atención de los veteranos. <b>Método</b>: El estudio empleó un diseño cualitativo mediante el cual 17 veteranos, que habían asistido recientemente a servicios especializados de salud mental para veteranos, participaron en entrevistas semiestructuradas. Los datos resultantes se analizaron utilizando una teoría fundamentada. <b>Resultados</b>: Los participantes describieron dos etapas distintas en su búsqueda de ayuda: búsqueda inicial de ayuda; y vías del tratamiento. En cada etapa se identificaron las barreras específicas y los facilitadores para dicha búsqueda de ayuda. Las barreras iniciales incluyeron el reconocimiento de que existe un problema, el autoestigma y el estigma público anticipado. Los facilitadores iniciales incluyeron estar en crisis, apoyo social, motivación y los medios de comunicación. Las barreras a recibir tratamiento incluían factores prácticos y creencias negativas sobre los servicios de salud y los profesionales. Lo que facilitaba el recibir tratamiento incluía tener un diagnóstico, ser vistos en un servicio específico para veteranos y establecer una buena relación terapéutica. Los participantes proporcionaron algunas sugerencias de intervenciones para mejorar la búsqueda de ayuda de los veteranos en el futuro; estos se enfocaron en mejorar el conocimiento sobre las dificultades de salud mental. tanto de los veteranos como el de los profesionales de la salud. <b>Conclusiones</b>: Este estudio identificó una serie de barreras y facilitadores que pueden influir en que los veteranos busquen ayuda de servicios profesionales para las dificultades de salud mental. Facilitadores como llegar a un punto de crisis, el apoyo social, los medios de comunicación, tener un diagnóstico de TEPT y servicios de salud mental específicos para veteranos parecían ser importantes a la hora de enfrentarse a creencias estigmatizadas y de apoyar a los veteranos a implicarse en conductas de búsqueda de ayuda.</AbstractText>
+      </OtherAbstract>
+      <OtherAbstract Type="Publisher" Language="chi">
+        <AbstractText><b>背景：</b>承受着心理健康障碍的老兵对心理健康服务使用不足，这是普遍存在的。 <b>结论：</b>目标：本研究为了更好的理解阻碍老兵寻求更多专业帮助的原因，和能够帮助他们寻求专业帮助的因素。同时为了去探索促进老兵寻求帮助和获取关怀的潜在机制。 <b>方法：</b>本研究使用了质性研究方法，17名最近使用过老兵心理健康服务的老兵参加了半结构化访谈。根据扎根理论进行数据分析。 <b>结果：</b>参与者描述了两种截然不同的阶段：初始寻求帮助阶段，治疗进程阶段。我们发现了在不同的求助阶段的特定的障碍和促进因素。起始阶段的障碍包括：对出现问题的认知，自我污名效应和预想的公共污名效应。起始阶段的帮助因素有：处在危机中，社会支持，动机和媒体。治疗进程的障碍有：现实因素和对健康机构和专家的负面认识。治疗进程中的帮助因素有：获得诊断，在老兵服务机构治疗，建立良好的治疗关系。参与者提供了一些关于未来能够提高老兵寻求帮助的干预建议，这些建议聚焦于同时提高老兵和健康专家关于心理健康障碍的知识。 <b>结论：</b>这篇研究发现了一些影响老兵寻求专业心理健康服务的帮助的障碍和促进因素。帮助因素包括达到危机点，社会支持，媒体，被诊断为 PTSD，专门针对老兵的心理健康机构在对抗污名化信念的过程中起作用，并且支持老兵持续的寻求帮助。.</AbstractText>
+      </OtherAbstract>
+      <KeywordList Owner="NOTNLM">
+        <Keyword MajorTopicYN="N">Veterans</Keyword>
+        <Keyword MajorTopicYN="N">barriers</Keyword>
+        <Keyword MajorTopicYN="N">ex-service personnel</Keyword>
+        <Keyword MajorTopicYN="N">help-seeking</Keyword>
+        <Keyword MajorTopicYN="N">mental health</Keyword>
+        <Keyword MajorTopicYN="N">stigma</Keyword>
+        <Keyword MajorTopicYN="N">• This article aimed to understand why a vast majority of veterans suffering from mental health difficulties do not seek professional help. • Living with untreated mental health difficulties has significant negative implications for individuals, society and the economy. • During interviews with veterans suffering from mental health difficulties, we learned about a number of barriers which got in the way of them accessing help, and a number of enablers which allowed them to get the help that they required.</Keyword>
+      </KeywordList>
+      <CoiStatement>No potential conflict of interest was reported by the authors.</CoiStatement>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="received">
+          <Year>2017</Year>
+          <Month>06</Month>
+          <Day>20</Day>
+        </PubMedPubDate>
+        <PubMedPubDate PubStatus="accepted">
+          <Year>2017</Year>
+          <Month>09</Month>
+          <Day>25</Day>
+        </PubMedPubDate>
+        <PubMedPubDate PubStatus="entrez">
+          <Year>2017</Year>
+          <Month>11</Month>
+          <Day>23</Day>
+          <Hour>6</Hour>
+          <Minute>0</Minute>
+        </PubMedPubDate>
+        <PubMedPubDate PubStatus="pubmed">
+          <Year>2017</Year>
+          <Month>11</Month>
+          <Day>23</Day>
+          <Hour>6</Hour>
+          <Minute>0</Minute>
+        </PubMedPubDate>
+        <PubMedPubDate PubStatus="medline">
+          <Year>2017</Year>
+          <Month>11</Month>
+          <Day>23</Day>
+          <Hour>6</Hour>
+          <Minute>1</Minute>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>epublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">29163864</ArticleId>
+        <ArticleId IdType="doi">10.1080/20008198.2017.1389207</ArticleId>
+        <ArticleId IdType="pii">1389207</ArticleId>
+        <ArticleId IdType="pmc">PMC5687804</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+</PubmedArticleSet>
