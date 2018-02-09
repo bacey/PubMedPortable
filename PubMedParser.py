@@ -5,7 +5,7 @@
     Copyright (c) 2014, Bjoern Gruening <bjoern.gruening@gmail.com>, Kersten Doering <kersten.doering@gmail.com>
 
     This parser reads XML files from PubMed and extracts titles,
-    abstracts (no full texts), authors, dates, etc. and directly loads them 
+    abstracts (no full texts), authors, dates, etc. and directly loads them
     into the pubmed PostgreSQL database schema (defined in PubMedDB.py).
 """
 
@@ -94,7 +94,7 @@ class MedlineParser:
 
                     try:
                         same_pmid = self.session.query(PubMedDB.Citation).filter( PubMedDB.Citation.pmid == pubmed_id ).all()
-                        # The following condition is only for incremental updates. 
+                        # The following condition is only for incremental updates.
 
                         """
                         # Implementation that replaces the database entry with the new article from the XML file.
@@ -563,25 +563,25 @@ class MedlineParser:
                                     temp_abstract_text +=child_AbstractText.text + "\n"
                                 # one label or the NlmCategory - first index has to be zero:
                                 if len(child_AbstractText.items()) == 1:
-                                    # filter for the wrong label "UNLABELLED" - usually contains the text "ABSTRACT: - not used: 
+                                    # filter for the wrong label "UNLABELLED" - usually contains the text "ABSTRACT: - not used:
                                     if child_AbstractText.items()[0][1] == "UNLABELLED":
                                         temp_abstract_text += child_AbstractText.text + "\n"
                                     else:
                                         temp_abstract_text += child_AbstractText.items()[0][1] + ":\n" + child_AbstractText.text + "\n"
                                 # label and NlmCategory - take label - first index has to be one:
                                 if len(child_AbstractText.items()) == 2:
-                                    temp_abstract_text += child_AbstractText.items()[1][1] + ":\n" + child_AbstractText.text + "\n"    
+                                    temp_abstract_text += child_AbstractText.items()[1][1] + ":\n" + child_AbstractText.text + "\n"
                     # if there is only one AbstractText-Tag ("usually") - no labels used:
                     if elem.find("AbstractText") != None and len(elem.findall("AbstractText")) == 1:
                         temp_abstract_text = elem.findtext("AbstractText")
                     # append abstract text for later pushing it into db:
                     DBAbstract.abstract_text = temp_abstract_text
                     # next 3 lines are unchanged - some abstract texts (few) contain the child-tag "CopyrightInformation" after all AbstractText-Tags:
-                    if elem.find("CopyrightInformation") != None:   
+                    if elem.find("CopyrightInformation") != None:
                         DBAbstract.copyright_information = elem.find("CopyrightInformation").text
                     DBCitation.abstracts.append(DBAbstract)
                 # end Kersten - code changed
-                
+
                 """
                 #old code:
                 if elem.tag == "Abstract":
@@ -668,7 +668,7 @@ def run(medline_path, clean, start, end, PROCESSES):
 
     if clean:
         PubMedDB.create_tables(db)
-    
+
     PubMedDB.init(db)
 
     paths = []
@@ -678,7 +678,7 @@ def run(medline_path, clean, start, end, PROCESSES):
                 paths.append(os.path.join(root,filename))
 
     paths.sort()
-    
+
 
     pool = Pool(processes=PROCESSES)    # start with processors
     print "Initialized with ", PROCESSES, "processes"
@@ -722,7 +722,7 @@ if __name__ == "__main__":
     #log start time of programme:
     start = time.asctime()
     run(options.medline_path, options.clean, int(options.start), options.end, int(options.PROCESSES))
-    #end time programme 
+    #end time programme
     end = time.asctime()
 
     print "programme started - " + start
