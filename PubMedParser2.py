@@ -28,9 +28,6 @@ WARNING_LEVEL = "always" #error, ignore, always, default, module, once
 # multiple processes, #processors-1 is optimal!
 PROCESSES = 4
 
-# If this file exists, then parsing stops.
-STOP_PARSING_SIGNAL='.stop-parsing'
-
 warnings.simplefilter(WARNING_LEVEL)
 
 #convert 3 letter code of months to digits for unique publication format
@@ -50,10 +47,6 @@ class MedlineParser:
             return string
         else:
             return string[:max_length - 4] + '...'
-
-
-    def should_we_stop_parsing(self):
-        return os.path.isfile(STOP_PARSING_SIGNAL)
 
 
     def _parse(self):
@@ -151,9 +144,6 @@ class MedlineParser:
                     DBCitation = PubMedDB.Citation()
                     DBJournal = PubMedDB.Journal()
                     elem.clear()
-
-                    if self.should_we_stop_parsing():
-                        break
 
                 #Kersten: some dates are given in 3-letter code - use dictionary month_code for conversion to digits:
                 if elem.tag == "DateCreated":
@@ -456,7 +446,7 @@ class MedlineParser:
                                 DBGrants.grantid = temp_grantid[0:197] + "..."
 
                         if grant.find("Acronym") != None:
-                            DBGrants.acronym = self.shorten(grant.find("Acronym").text, 20)
+                            DBGrants.acronym = grant.find("Acronym").text
 
                         # agency is restricted to 200 characters
                         if grant.find("Agency") != None and grant.find("Agency").text != None:
@@ -501,7 +491,7 @@ class MedlineParser:
                                 if not acc_number.text in all_acc_numbers[temp_name]:
                                     DBAccession = PubMedDB.Accession()
                                     DBAccession.data_bank_name = DBDataBank.data_bank_name
-                                    DBAccession.accession_number = acc_number.text or ''
+                                    DBAccession.accession_number = acc_number.text
                                     DBCitation.accessions.append(DBAccession)
                                     all_acc_numbers[temp_name].append(acc_number.text)
 
@@ -686,8 +676,7 @@ def run(medline_path, clean, start, end, PROCESSES):
         end = int(end)
 
     if clean:
-        #PubMedDB.create_tables(db)
-        print('Tables would have been truncated!')
+        PubMedDB.create_tables(db)
 
     PubMedDB.init(db)
 

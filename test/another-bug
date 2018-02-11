@@ -1,0 +1,40 @@
+ States', 'agency': 'Howard Hughes Medical Institute', 'fk_pmid': 27241849, 'grantid': None}]                                       
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ tmp/start-import-of-pubmed-baseline-files.sh              
+Initialized with  3 processes    
+tmp/pubmed-baseline-files/pubmed18n0868.xml.gz  pid: 10533        
+tmp/pubmed-baseline-files/pubmed18n0871.xml.gz  pid: 10534        
+tmp/pubmed-baseline-files/pubmed18n0873.xml.gz  pid: 10535        
+tmp/pubmed-baseline-files/pubmed18n0874.xml.gz  pid: 10535        
+tmp/pubmed-baseline-files/pubmed18n0869.xml.gz  pid: 10533        
+tmp/pubmed-baseline-files/pubmed18n0872.xml.gz  pid: 10534        
+tmp/pubmed-baseline-files/pubmed18n0875.xml.gz  pid: 10535        
+tmp/pubmed-baseline-files/pubmed18n0877.xml.gz  pid: 10534        
+tmp/pubmed-baseline-files/pubmed18n0879.xml.gz  pid: 10533        
+tmp/pubmed-baseline-files/pubmed18n0876.xml.gz  pid: 10535        
+tmp/pubmed-baseline-files/pubmed18n0878.xml.gz  pid: 10534        
+tmp/pubmed-baseline-files/pubmed18n0880.xml.gz  pid: 10533        
+tmp/pubmed-baseline-files/pubmed18n0881.xml.gz  pid: 10535        
+tmp/pubmed-baseline-files/pubmed18n0883.xml.gz  pid: 10534        
+tmp/pubmed-baseline-files/pubmed18n0885.xml.gz  pid: 10533        
+tmp/pubmed-baseline-files/pubmed18n0882.xml.gz  pid: 10535        
+tmp/pubmed-baseline-files/pubmed18n0884.xml.gz  pid: 10534        
+tmp/pubmed-baseline-files/pubmed18n0886.xml.gz  pid: 10533        
+tmp/pubmed-baseline-files/pubmed18n0887.xml.gz  pid: 10535        
+tmp/pubmed-baseline-files/pubmed18n0889.xml.gz  pid: 10534        
+tmp/pubmed-baseline-files/pubmed18n0888.xml.gz  pid: 10535        
+tmp/pubmed-baseline-files/pubmed18n0890.xml.gz  pid: 10534        
+PubMedParser.py:144: Warning:    
+IntegrityError: (raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely) (psycopg2.IntegrityError) null value in column "accession_number" violates not-null constraint                      
+DETAIL:  Failing row contains (27939058, ISRCTN, null).           
+ [SQL: 'INSERT INTO pubmed.tbl_accession_number (fk_pmid, data_bank_name) VALUES (%(fk_pmid)s, %(data_bank_name)s) RETURNING pubmed.tbl_accession_number.accession_number'] [parameters: {'fk_pmid': 27939058, 'data_bank_name': 'ISRCTN'}]                             
+  warnings.warn("\nIntegrityError: "+str(error), Warning)         
+^Z                               
+[1]+  Stopped                 tmp/start-import-of-pubmed-baseline-files.sh                                                          
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ fg                                                        
+tmp/start-import-of-pubmed-baseline-files.sh                      
+######################           
+###### Finished ######           
+######################           
+programme started - Sat Feb 10 11:44:25 2018                      
+programme ended - Sat Feb 10 21:22:26 2018                        
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$   

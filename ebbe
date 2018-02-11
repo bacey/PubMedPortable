@@ -1,0 +1,3042 @@
++"""
++
++import PubMedParser
++
++
++def test_article_with_long_keyword_can_be_imported(capsys):
+     # Name of that temporary test-database where the articles will be imported into, during the test-run.
+     PubMedParser.db = 'pubmed_test_db'
+
+@@ -28,7 +37,5 @@ def test_answer(capsys):
+
+     std_output, std_error = capsys.readouterr()
+
+-    #assert 'Finished' in std_output
+-    #'value too long for type character varying(500)'
+-
++    assert 'Finished' in std_output
+     assert std_error == ''
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gs
+On branch article-with-long-keyword
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   PubMedParser.py
+        modified:   test/test_PubMedParser.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        test/README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git add test
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gs
+On branch article-with-long-keyword
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        new file:   test/README.md
+        modified:   test/test_PubMedParser.py
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   PubMedParser.py
+
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git commit -m 'Cleaned up the test a bit.'
+[article-with-long-keyword b8107fb] Cleaned up the test a bit.
+ 2 files changed, 48 insertions(+), 34 deletions(-)
+ create mode 100644 test/README.md
+ rewrite test/test_PubMedParser.py (86%)
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gs
+On branch article-with-long-keyword
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   PubMedParser.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff
+diff --git a/PubMedParser.py b/PubMedParser.py
+index 50557ba..5deec02 100644
+--- a/PubMedParser.py
++++ b/PubMedParser.py
+@@ -42,6 +42,13 @@ class MedlineParser:
+         self.session = Session()
+
+
++    def shorten(self, string, max_length):
++        if string is None or len(string) < max_length:
++            return string
++        else:
++            return string[:max_length - 4] + '...'
++
++
+     def _parse(self):
+         _file = self.filepath
+
+@@ -607,7 +614,7 @@ class MedlineParser:
+                         else:
+                             continue
+                         DBKeyword = PubMedDB.Keyword()
+-                        DBKeyword.keyword = subelem.text
++                        DBKeyword.keyword = self.shorten(subelem.text, 500)
+                         #catch KeyError in case there is no MajorTopicYN attribute before committing DBCitation
+                         try:
+                             DBKeyword.keyword_major_yn = subelem.attrib["MajorTopicYN"]
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gcam 'Fix: the keyword is truncated to 500 characters.'
+[article-with-long-keyword 103aa96] Fix: the keyword is truncated to 500 characters.
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gs
+On branch article-with-long-keyword
+nothing to commit, working tree clean
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff origin/master
+diff --git a/.editorconfig b/.editorconfig
+new file mode 100644
+index 0000000..b659832
+--- /dev/null
++++ b/.editorconfig
+@@ -0,0 +1,15 @@
++# top-most EditorConfig file
++root = true
++
++
++[*]
++indent_style = space
++insert_final_newline = true
++end_of_line = lf
++charset = utf-8
++
++
++[*.{py,py.tpl}]
++indent_size = 4
++trim_trailing_whitespace = true
++
+diff --git a/.gitattributes b/.gitattributes
+new file mode 100644
+index 0000000..de1214f
+--- /dev/null
++++ b/.gitattributes
+@@ -0,0 +1,68 @@
++#common settings that generally should always be used with your language specific settings
++
++# Auto detect text files and perform LF normalization
++# http://davidlaing.com/2012/09/19/customise-your-gitattributes-to-become-a-git-ninja/
++* text=auto
++
++#
++# The above will handle all files NOT found below
++#
++
++# Documents
++*.doc   diff=astextplain
++*.DOC   diff=astextplain
++*.docx diff=astextplain
++*.DOCX diff=astextplain
++*.dot  diff=astextplain
++*.DOT  diff=astextplain
++*.pdf  diff=astextplain
++*.PDF   diff=astextplain
++*.rtf   diff=astextplain
++*.RTF   diff=astextplain
++*.md text
++*.adoc text
++*.textile text
++*.mustache text
++*.csv text
++*.tab text
++*.tsv text
++*.sql text
++
++# Graphics
++*.png binary
++*.jpg binary
++*.jpeg binary
++*.gif binary
++*.tif binary
++*.tiff binary
++*.ico binary
++# SVG treated as an asset (binary) by default. If you want to treat it as text,
++# comment-out the following line and uncomment the line after.
++*.svg binary
++#*.svg text
++*.eps binary
++
++
++# Basic .gitattributes for a python repo.
++
++# Source files
++# ============
++*.pxd          text
++*.py           text
++*.py3          text
++*.pyw          text
++*.pyx                  text
++
++# Binary files
++# ============
++*.db           binary
++*.p            binary
++*.pkl          binary
++*.pyc          binary
++*.pyd          binary
++*.pyo          binary
++
++# Note: .db, .p, and .pkl files are associated
++# with the python modules ``pickle``, ``dbm.*``,
++# ``shelve``, ``marshal``, ``anydbm``, & ``bsddb``
++# (among others).
+diff --git a/.gitignore b/.gitignore
+index 3cbd179..3087d7e 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -61,6 +61,7 @@ nosetests.xml
+ coverage.xml
+ *,cover
+ .hypothesis/
++.pytest_cache/
+
+ # Translations
+ *.mo
+@@ -104,3 +105,16 @@ ENV/
+
+ # Rope project settings
+ .ropeproject
++
++# PyCharm IDE
++.idea/
++
++# backup files
++*~
++.*~
++
++tmp/
++
++# File specifying the necessary Conda environment.
++# See: https://github.com/sotte/conda_auto_activate
++.condaauto
+diff --git a/PubMedDB.py b/PubMedDB.py
+old mode 100755
+new mode 100644
+index e192460..38ce9f5
+--- a/PubMedDB.py
++++ b/PubMedDB.py
+@@ -74,7 +74,7 @@ class Citation(Base):
+         CheckConstraint("article_author_list_comp_yn IN ('Y', 'N', 'y', 'n')", name='ck4_medline_citation'),
+         CheckConstraint("data_bank_list_complete_yn IN ('Y', 'N', 'y', 'n')", name='ck5_medline_citation'),
+         CheckConstraint("grant_list_complete_yn IN ('Y', 'N', 'y', 'n')", name='ck6_medline_citation'),
+-        {'schema': SCHEMA}
++        {'schema': SCHEMA}
+     )
+
+
+@@ -97,7 +97,7 @@ class PMID_File_Mapping(Base):
+         ForeignKeyConstraint(['id_file','xml_file_name'], [SCHEMA+'.tbl_xml_file.id',SCHEMA+'.tbl_xml_file.xml_file_name'], onupdat
+e="CASCADE", ondelete="CASCADE", name='fk3_pmids_in_file'),
+         ForeignKeyConstraint(['fk_pmid'], [SCHEMA+'.tbl_medline_citation.pmid'], onupdate="CASCADE", ondelete="CASCADE", name="fk2_
+pmids_in_file"),
+         PrimaryKeyConstraint( 'fk_pmid'),
+-        {'schema': SCHEMA}
++        {'schema': SCHEMA}
+     )
+
+
+@@ -125,7 +125,7 @@ class XMLFile(Base):
+
+     __table_args__  = (
+         PrimaryKeyConstraint('id','xml_file_name'),
+-        {'schema': SCHEMA}
++        {'schema': SCHEMA}
+     )
+
+
+diff --git a/PubMedParser.py b/PubMedParser.py
+index d6d2ddf..5deec02 100644
+--- a/PubMedParser.py
++++ b/PubMedParser.py
+@@ -1,729 +1,736 @@
+-#!/usr/bin/env python
+-# -*- coding: UTF-8 -*-
+-
+-"""
+-    Copyright (c) 2014, Bjoern Gruening <bjoern.gruening@gmail.com>, Kersten Doering <kersten.doering@gmail.com>
+-
+-    This parser reads XML files from PubMed and extracts titles,
+-    abstracts (no full texts), authors, dates, etc. and directly loads them
+-    into the pubmed PostgreSQL database schema (defined in PubMedDB.py).
+-"""
+-
+-import sys, os
+-import xml.etree.cElementTree as etree
+-import datetime, time
+-import warnings
+-import logging
+-import time
+-
+-import PubMedDB
+-from sqlalchemy.orm import *
+-from sqlalchemy import *
+-from sqlalchemy.exc import *
+-import gzip
+-from multiprocessing import Pool
+-
+-
+-WARNING_LEVEL = "always" #error, ignore, always, default, module, once
+-# multiple processes, #processors-1 is optimal!
+-PROCESSES = 4
+-
+-warnings.simplefilter(WARNING_LEVEL)
+-
+-#convert 3 letter code of months to digits for unique publication format
+-month_code = {"Jan":"01","Feb":"02","Mar":"03","Apr":"04","May":"05","Jun":"06","Jul":"07","Aug":"08","Sep":"09","Oct":"10","Nov":"
+11","Dec":"12"}
+-
+-class MedlineParser:
+-    #db is a global variable and given to MedlineParser(path,db) in _start_parser(path)
+-    def __init__(self, filepath,db):
+-        engine, Base = PubMedDB.init(db)
+-        Session = sessionmaker(bind=engine)
+-        self.filepath = filepath
+-        self.session = Session()
+-
+-
+-    def _parse(self):
+-        _file = self.filepath
+-
+-        """
+-        a = self.session.query(PubMedDB.XMLFile.xml_file_name).filter_by(xml_file_name = os.path.split(self.filepath)[-1])
+-        if a.all():
+-            print self.filepath, 'already in DB'
+-            return True
+-        """
+-
+-        if os.path.splitext(_file)[-1] == ".gz":
+-            _file = gzip.open(_file, 'rb')
+-
+-        # get an iterable
+-        context = etree.iterparse(_file, events=("start", "end"))
+-        # turn it into an iterator
+-        context = iter(context)
+-
+-        # get the root element
+-        event, root = context.next()
+-
+-        DBCitation = PubMedDB.Citation()
+-        DBJournal = PubMedDB.Journal()
+-
+-
+-        DBXMLFile = PubMedDB.XMLFile()
+-        DBXMLFile.xml_file_name = os.path.split(self.filepath)[-1]
+-        DBXMLFile.time_processed = datetime.datetime.now()#time.localtime()
+-
+-        loop_counter = 0 #to check for memory usage each X loops
+-
+-        for event, elem in context:
+-
+-            if event == "end":
+-                if elem.tag == "MedlineCitation" or elem.tag == "BookDocument":
+-                    loop_counter += 1
+-                    #catch KeyError in case there is no Owner or Status attribute before committing DBCitation
+-                    try:
+-                        DBCitation.citation_owner = elem.attrib["Owner"]
+-                    except:
+-                        pass
+-                    try:
+-                        DBCitation.citation_status = elem.attrib["Status"]
+-                    except:
+-                        pass
+-                    DBCitation.journals = [DBJournal]
+-
+-                    pubmed_id = int(elem.find("PMID").text)
+-                    DBCitation.pmid = pubmed_id
+-
+-                    try:
+-                        same_pmid = self.session.query(PubMedDB.Citation).filter( PubMedDB.Citation.pmid == pubmed_id ).all()
+-                        # The following condition is only for incremental updates.
+-
+-                        """
+-                        # Implementation that replaces the database entry with the new article from the XML file.
+-                        if same_pmid: # -> evt. any()
+-                            same_pmid = same_pmid[0]
+-                            warnings.warn('\nDoubled Citation found (%s).' % pubmed_id)
+-                            if not same_pmid.date_revised or same_pmid.date_revised < DBCitation.date_revised:
+-                                warnings.warn('\nReplace old Citation. Old Citation from %s, new citation from %s.' % (same_pmid.da
+te_revised, DBCitation.date_revised) )
+-                                self.session.delete( same_pmid )
+-                                self.session.commit()
+-                                DBCitation.xml_files = [DBXMLFile] # adds an implicit add()
+-                                self.session.add( DBCitation )
+-                        """
+-
+-                        # Keep database entry that is already saved in database and continue with the next PubMed-ID.
+-                        # Manually deleting entries is possible (with PGAdmin3 or via command-line), e.g.:
+-                        # DELETE FROM pubmed.tbl_medline_citation WHERE pmid = 25005691;
+-                        if same_pmid:
+-                            print "Article already in database - " + str(same_pmid[0]) + "Continuing with next PubMed-ID"
+-                            DBCitation = PubMedDB.Citation()
+-                            DBJournal = PubMedDB.Journal()
+-                            elem.clear()
+-                            self.session.commit()
+-                            continue
+-                        else:
+-                            DBCitation.xml_files = [DBXMLFile] # adds an implicit add()
+-                            self.session.add(DBCitation)
+-
+-                        if loop_counter % 1000 == 0:
+-                            self.session.commit()
+-
+-                    except (IntegrityError) as error:
+-                        warnings.warn("\nIntegrityError: "+str(error), Warning)
+-                        self.session.rollback()
+-                    except Exception as e:
+-                        warnings.warn("\nUnbekannter Fehler:"+str(e), Warning)
+-                        self.session.rollback()
+-                        raise
+-
+-                    DBCitation = PubMedDB.Citation()
+-                    DBJournal = PubMedDB.Journal()
+-                    elem.clear()
+-
+-                #Kersten: some dates are given in 3-letter code - use dictionary month_code for conversion to digits:
+-                if elem.tag == "DateCreated":
+-                    try:
+-                        date = datetime.date(int(elem.find("Year").text), int(elem.find("Month").text), int(elem.find("Day").text))
+-                    except:
+-                        date = datetime.date(int(elem.find("Year").text), int(month_code[elem.find("Month").text]), int(elem.find("
+Day").text))
+-                    DBCitation.date_created = date
+-
+-                if elem.tag == "DateCompleted":
+-                    try:
+-                        date = datetime.date(int(elem.find("Year").text), int(elem.find("Month").text), int(elem.find("Day").text))
+-                    except:
+-                        date = datetime.date(int(elem.find("Year").text), int(month_code[elem.find("Month").text]), int(elem.find("
+Day").text))
+-                    DBCitation.date_completed = date
+-
+-                if elem.tag == "DateRevised":
+-                    try:
+-                        date = datetime.date(int(elem.find("Year").text), int(elem.find("Month").text), int(elem.find("Day").text))
+-                    except:
+-                        date = datetime.date(int(elem.find("Year").text), int(month_code[elem.find("Month").text]), int(elem.find("
+Day").text))
+-                    DBCitation.date_revised = date
+-
+-                if elem.tag == "NumberOfReferences":
+-                    DBCitation.number_of_references = elem.text
+-
+-                if elem.tag == "ISSN":
+-                    DBJournal.issn = elem.text
+-                    DBJournal.issn_type = elem.attrib['IssnType']
+-
+-                if elem.tag == "JournalIssue" or elem.tag == "Book":
+-                    if elem.find("Volume") != None:         DBJournal.volume = elem.find("Volume").text
+-                    if elem.find("Issue") != None:          DBJournal.issue = elem.find("Issue").text
+-
+-                    #ensure pub_date_year with boolean year:
+-                    year = False
+-                    for subelem in elem.find("PubDate"):
+-                        if subelem.tag == "MedlineDate":
+-                            if len(subelem.text) > 40:
+-                                DBJournal.medline_date = subelem.text[:37] + "..."
+-                            else:
+-                                DBJournal.medline_date = subelem.text
+-                        elif subelem.tag == "Year":
+-                            year = True
+-                            DBJournal.pub_date_year = subelem.text
+-                        elif subelem.tag == "Month":
+-                            if subelem.text in month_code:
+-                                DBJournal.pub_date_month = month_code[subelem.text]
+-                            else:
+-                                DBJournal.pub_date_month = subelem.text
+-                        elif subelem.tag == "Day":
+-                            DBJournal.pub_date_day = subelem.text
+-                    # try to cast year from beginning of MedlineDate string
+-                    if not year:
+-                        try:
+-                            temp_year = int (subelem.text[0:4])
+-                            DBJournal.pub_date_year = temp_year
+-                            year = True
+-                        except:
+-                            print _file, " not able to cast first 4 letters of medline_date", subelem.text
+-                    # try to cast year from end of MedlineDate string
+-                    if not year:
+-                        try:
+-                            temp_year = int (subelem.text[-4:])
+-                            DBJournal.pub_date_year = temp_year
+-                            year = True
+-                        except:
+-                            print _file, " not able to cast last 4 letters of medline_date", subelem.text
+-
+-                #if there is the attribute ArticleDate, month and day are given
+-                if elem.tag == "ArticleDate":
+-                    DBJournal.pub_date_year = elem.find("Year").text
+-                    DBJournal.pub_date_month = elem.find("Month").text
+-                    DBJournal.pub_date_day = elem.find("Day").text
+-
+-                if elem.tag == "Title":
+-                    """ ToDo """
+-                    pass
+-
+-                if elem.tag == "Journal":
+-                    if elem.find("Title") != None:
+-                        DBJournal.title = elem.find("Title").text
+-                    if elem.find("ISOAbbreviation") != None:
+-                        DBJournal.iso_abbreviation = elem.find("ISOAbbreviation").text
+-
+-                if elem.tag == "ArticleTitle" or elem.tag == "BookTitle":
+-                    if elem.text != None:
+-                        DBCitation.article_title = elem.text
+-                    # add string because of not null constraint
+-                    else:
+-                        DBCitation.article_title = "No title"
+-                if elem.tag == "MedlinePgn":
+-                    DBCitation.medline_pgn = elem.text
+-
+-                if elem.tag == "AuthorList":
+-                    #catch KeyError in case there is no CompleteYN attribute before committing DBCitation
+-                    try:
+-                        DBCitation.article_author_list_comp_yn = elem.attrib["CompleteYN"]
+-                    except:
+-                        pass
+-
+-                    DBCitation.authors = []
+-                    for author in elem:
+-                        DBAuthor = PubMedDB.Author()
+-
+-                        if author.find("LastName") != None:
+-                            DBAuthor.last_name = author.find("LastName").text
+-
+-                        # Forname is restricted to 100 characters
+-                        if author.find("ForeName") != None and author.find("ForeName").text != None:
+-                            temp_forname = author.find("ForeName").text
+-                            if len(temp_forname) < 100:
+-                                DBAuthor.fore_name = temp_forname
+-                            else:
+-                                DBAuthor.fore_name = author.find("ForeName").text[0:97] + "..."
+-
+-                        if author.find("Initials") != None:
+-                            DBAuthor.initials = author.find("Initials").text
+-
+-                        # Suffix is restricted to 20 characters
+-                        if author.find("Suffix") != None and author.find("Suffix").text != None:
+-                            temp_suffix = author.find("Suffix").text
+-                            if len(temp_suffix)  < 20:
+-                                DBAuthor.suffix = temp_suffix
+-                            else:
+-                                DBAuthor.suffix = temp_suffix[0:17] + "..."
+-
+-                        if author.find("CollectiveName") != None:
+-                            DBAuthor.collective_name = author.find("CollectiveName").text
+-
+-                        DBCitation.authors.append(DBAuthor)
+-
+-                if elem.tag == "PersonalNameSubjectList":
+-                    DBCitation.personal_names = []
+-                    for pname in elem:
+-                        DBPersonalName = PubMedDB.PersonalName()
+-
+-                        if pname.find("LastName") != None:
+-                            DBPersonalName.last_name = pname.find("LastName").text
+-                        if pname.find("ForeName") != None:
+-                            DBPersonalName.fore_name = pname.find("ForeName").text
+-                        if pname.find("Initials") != None:
+-                            DBPersonalName.initials = pname.find("Initials").text
+-                        if pname.find("Suffix") != None:
+-                            DBPersonalName.suffix = pname.find("Suffix").text
+-
+-                        DBCitation.personal_names.append(DBPersonalName)
+-
+-
+-                if elem.tag == "InvestigatorList":
+-                    DBCitation.investigators = []
+-                    for investigator in elem:
+-                        DBInvestigator = PubMedDB.Investigator()
+-
+-                        if investigator.find("LastName") != None:
+-                            DBInvestigator.last_name = investigator.find("LastName").text
+-
+-                        if investigator.find("ForeName") != None:
+-                            DBInvestigator.fore_name = investigator.find("ForeName").text
+-
+-                        if investigator.find("Initials") != None:
+-                            DBInvestigator.initials = investigator.find("Initials").text
+-
+-                        if investigator.find("Suffix") != None:
+-                            temp_suffix = investigator.find("Suffix").text
+-                            # suffix is restricted to 20 characters
+-                            if len(temp_suffix) < 20:
+-                                DBInvestigator.suffix = temp_suffix
+-                            else:
+-                                DBInvestigator.suffix = temp_suffix[:17] + '...'
+-
+-                        if investigator.find("Affiliation") != None:
+-                            DBInvestigator.investigator_affiliation = investigator.find("Affiliation").text
+-
+-                        DBCitation.investigators.append(DBInvestigator)
+-
+-                if elem.tag == "SpaceFlightMission":
+-                    DBSpaceFlight = PubMedDB.SpaceFlight()
+-                    DBSpaceFlight.space_flight_mission = elem.text
+-                    DBCitation.space_flights = [DBSpaceFlight]
+-
+-                if elem.tag == "GeneralNote":
+-                    DBCitation.notes = []
+-                    for subelem in elem:
+-                        DBNote = PubMedDB.Note()
+-                        DBNote.general_note_owner = elem.attrib["Owner"]
+-                        DBNote.general_note = subelem.text
+-                        DBCitation.notes.append(DBNote)
+-
+-                if elem.tag == "ChemicalList":
+-                    DBCitation.chemicals = []
+-                    for chemical in elem:
+-                        DBChemical = PubMedDB.Chemical()
+-
+-                        if chemical.find("RegistryNumber") != None:
+-                            DBChemical.registry_number = chemical.find("RegistryNumber").text
+-                        if chemical.find("NameOfSubstance") != None:
+-                            DBChemical.name_of_substance = chemical.find("NameOfSubstance").text
+-                            DBChemical.substance_ui = chemical.find("NameOfSubstance").attrib['UI']
+-                        DBCitation.chemicals.append(DBChemical)
+-
+-                if elem.tag == "GeneSymbolList":
+-                    DBCitation.gene_symbols = []
+-                    for genes in elem:
+-                        DBGeneSymbol = PubMedDB.GeneSymbol()
+-                        if len(genes.text) < 40:
+-                            DBGeneSymbol.gene_symbol = genes.text
+-                        else:
+-                            DBGeneSymbol.gene_symbol = genes.text[:37] + '...'
+-                        DBCitation.gene_symbols.append(DBGeneSymbol)
+-
+-                if elem.tag == "CommentsCorrectionsList":
+-
+-                    DBCitation.comments = []
+-                    for comment in elem:
+-                        DBComment = PubMedDB.Comment()
+-                        comment_ref_type = comment.attrib['RefType']
+-                        comment_ref_source = comment.find('RefSource')
+-
+-                        if comment_ref_source != None and comment_ref_source.text != None:
+-                            if len(comment_ref_source.text) < 255:
+-                                DBComment.ref_source = comment_ref_source.text
+-                            else:
+-                                DBComment.ref_source = comment_ref_source.text[0:251] + "..."
+-                        # add string because of not null constraint
+-                        else:
+-                            DBComment.ref_source = "No reference source"
+-
+-                        if comment_ref_type != None:
+-                            if len(comment_ref_type) < 22:
+-                                DBComment.ref_type = comment_ref_type
+-                            else:
+-                                DBComment.ref_type = comment_ref_type[0:18] + "..."
+-                        comment_pmid_version = comment.find('PMID')
+-
+-                        if comment_pmid_version != None:
+-                            DBComment.pmid_version = comment_pmid_version.text
+-                        DBCitation.comments.append(DBComment)
+-
+-                if elem.tag == "MedlineJournalInfo":
+-                    DBJournalInfo = PubMedDB.JournalInfo()
+-                    if elem.find("NlmUniqueID") != None:
+-                        DBJournalInfo.nlm_unique_id = elem.find("NlmUniqueID").text
+-                    if elem.find("Country") != None:
+-                        DBJournalInfo.country = elem.find("Country").text
+-                    """#MedlineTA is just a name for the journal as an abbreviation
+-                    Abstract with PubMed-ID 21625393 has no MedlineTA attributebut it has to be set in PostgreSQL, that is why "unk
+nown" is inserted instead. There is just a <MedlineTA/> tag and the same information is given in  </JournalIssue> <Title>Biotechnolo
+gy and bioprocess engineering : BBE</Title>, but this is not (yet) read in this parser -> line 173:
+-                    """
+-                    if elem.find("MedlineTA") != None and elem.find("MedlineTA").text == None:
+-                        DBJournalInfo.medline_ta = "unknown"
+-                    elif elem.find("MedlineTA") != None:
+-                        DBJournalInfo.medline_ta = elem.find("MedlineTA").text
+-                    DBCitation.journal_infos = [DBJournalInfo]
+-
+-                if elem.tag == "CitationSubset":
+-                    DBCitation.citation_subsets = []
+-                    for subelem in elem:
+-                        DBCitationSubset = CitationSubset(subelem.text)
+-                        DBCitation.citation_subsets.append(DBCitationSubset)
+-
+-                if elem.tag == "MeshHeadingList":
+-                    DBCitation.meshheadings = []
+-                    DBCitation.qualifiers = []
+-                    for mesh in elem:
+-                        DBMeSHHeading = PubMedDB.MeSHHeading()
+-                        mesh_desc = mesh.find("DescriptorName")
+-                        if mesh_desc != None:
+-                            DBMeSHHeading.descriptor_name = mesh_desc.text
+-                            DBMeSHHeading.descriptor_name_major_yn = mesh_desc.attrib['MajorTopicYN']
+-                            DBMeSHHeading.descriptor_ui = mesh_desc.attrib['UI']
+-                        if mesh.find("QualifierName") != None:
+-                            mesh_quals = mesh.findall("QualifierName")
+-                            for qual in mesh_quals:
+-                                DBQualifier = PubMedDB.Qualifier()
+-                                DBQualifier.descriptor_name = mesh_desc.text
+-                                DBQualifier.qualifier_name = qual.text
+-                                DBQualifier.qualifier_name_major_yn = qual.attrib['MajorTopicYN']
+-                                DBQualifier.qualifier_ui = qual.attrib['UI']
+-                                DBCitation.qualifiers.append(DBQualifier)
+-                        DBCitation.meshheadings.append(DBMeSHHeading)
+-
+-                if elem.tag == "GrantList":
+-                    #catch KeyError in case there is no CompleteYN attribute before committing DBCitation
+-                    try:
+-                        DBCitation.grant_list_complete_yn = elem.attrib["CompleteYN"]
+-                    except:
+-                        pass
+-                    DBCitation.grants = []
+-                    for grant in elem:
+-                        DBGrants = PubMedDB.Grant()
+-
+-                        # grantid is restricted to 200 characters
+-                        if grant.find("GrantID") != None and grant.find("GrantID").text != None:
+-                            temp_grantid = grant.find("GrantID").text
+-                            if len(temp_grantid) < 200:
+-                                DBGrants.grantid = temp_grantid
+-                            else:
+-                                DBGrants.grantid = temp_grantid[0:197] + "..."
+-
+-                        if grant.find("Acronym") != None:
+-                            DBGrants.acronym = grant.find("Acronym").text
+-
+-                        # agency is restricted to 200 characters
+-                        if grant.find("Agency") != None and grant.find("Agency").text != None:
+-                            temp_agency = grant.find("Agency").text
+-                            if len(temp_agency) < 200:
+-                                DBGrants.agency = temp_agency
+-                            else:
+-                                DBGrants.agency = temp_agency[0:197] + "..."
+-
+-                        if grant.find("Country") != None:
+-                            DBGrants.country = grant.find("Country").text
+-
+-                        DBCitation.grants.append(DBGrants)
+-
+-                if elem.tag == "DataBankList":
+-                    #catch KeyError in case there is no CompleteYN attribute before committing DBCitation
+-                    try:
+-                        DBCitation.data_bank_list_complete_yn = elem.attrib["CompleteYN"]
+-                    except:
+-                        pass
+-                    DBCitation.accessions = []
+-                    DBCitation.databanks = []
+-
+-                    all_databanks = []
+-                    all_acc_numbers = {}
+-
+-                    for databank in elem:
+-                        temp_name = databank.find("DataBankName").text
+-                        # check unique data_bank_name per PubMed ID and not null
+-                        if temp_name != None and not temp_name in all_databanks:
+-                            DBDataBank = PubMedDB.DataBank()
+-                            DBDataBank.data_bank_name = temp_name
+-                            DBCitation.databanks.append(DBDataBank)
+-                            all_databanks.append(temp_name)
+-                            all_acc_numbers[temp_name] = []
+-
+-                        acc_numbers = databank.find("AccessionNumberList")
+-
+-                        if acc_numbers != None and temp_name != None:
+-                            for acc_number in acc_numbers:
+-                                # check unique accession number per PubMed ID and data_bank_name
+-                                if not acc_number.text in all_acc_numbers[temp_name]:
+-                                    DBAccession = PubMedDB.Accession()
+-                                    DBAccession.data_bank_name = DBDataBank.data_bank_name
+-                                    DBAccession.accession_number = acc_number.text
+-                                    DBCitation.accessions.append(DBAccession)
+-                                    all_acc_numbers[temp_name].append(acc_number.text)
+-
+-                if elem.tag == "Language":
+-                    DBLanguage = PubMedDB.Language()
+-                    DBLanguage.language = elem.text
+-                    DBCitation.languages = [DBLanguage]
+-
+-                if elem.tag == "PublicationTypeList":
+-                    DBCitation.publication_types = []
+-                    all_publication_types = []
+-                    for subelem in elem:
+-                        # check for unique elements in PublicationTypeList
+-                        if not subelem.text in all_publication_types:
+-                            DBPublicationType = PubMedDB.PublicationType()
+-                            DBPublicationType.publication_type = subelem.text
+-                            DBCitation.publication_types.append(DBPublicationType)
+-                            all_publication_types.append(subelem.text)
+-
+-                if elem.tag == "Article":
+-                    #ToDo
+-                    """
+-                    for subelem in elem:
+-                        if subelem.tag == "Journal":
+-                            for sub_subelem in subelem:
+-                                pass
+-                        if subelem.tag == "JArticleTitle":
+-                            pass
+-                        if subelem.tag == "JPagination":
+-                            pass
+-                        if subelem.tag == "JLanguage":
+-                            pass
+-                        if subelem.tag == "JPublicationTypeList":
+-                            pass
+-                    """
+-
+-                if elem.tag == "VernacularTitle":
+-                    DBCitation.vernacular_title = elem.tag
+-
+-                if elem.tag == "OtherAbstract":
+-                    DBOtherAbstract = PubMedDB.OtherAbstract()
+-                    DBCitation.other_abstracts = []
+-                    for other in elem:
+-                        if other.tag == "AbstractText":
+-                             DBOtherAbstract.other_abstract = other.text
+-                    DBCitation.other_abstracts.append(DBOtherAbstract)
+-
+-                if elem.tag == "OtherID":
+-                    DBCitation.other_ids = []
+-                    DBOtherID = PubMedDB.OtherID()
+-                    if len(elem.text) < 80:
+-                        DBOtherID.other_id = elem.text
+-                    else:
+-                        DBOtherID.other_id = elem.text[0:77] + "..."
+-                    DBOtherID.other_id_source = elem.attrib['Source']
+-                    DBCitation.other_ids.append(DBOtherID)
+-
+-                # start Kersten: some abstracts contain another structure - code changed:
+-                # check for different labels: "OBJECTIVE", "CASE SUMMARY", ...
+-                # next 3 lines are unchanged
+-                if elem.tag == "Abstract":
+-                    DBAbstract = PubMedDB.Abstract()
+-                    DBCitation.abstracts = []
+-                    #prepare empty string for "normal" abstracts or "labelled" abstracts
+-                    temp_abstract_text = ""
+-                    #if there are multiple AbstractText-Tags:
+-                    if elem.find("AbstractText") != None and len(elem.findall("AbstractText")) > 1:
+-                        for child_AbstractText in elem.getchildren():
+-                            # iteration over all labels is needed otherwise only "OBJECTIVE" would be pushed into database
+-                            # debug: check label
+-                            # [('NlmCategory', 'METHODS'), ('Label', 'CASE SUMMARY')]
+-                            # ...
+-                            # also checked for empty child-tags in this structure!
+-                            if child_AbstractText.tag == "AbstractText" and child_AbstractText.text != None:
+-                            #if child_AbstractText.tag == "AbstractText": # would give an error!
+-                                # no label - this case should not happen with multiple AbstractText-Tags:
+-                                if len(child_AbstractText.items()) == 0:
+-                                    temp_abstract_text +=child_AbstractText.text + "\n"
+-                                # one label or the NlmCategory - first index has to be zero:
+-                                if len(child_AbstractText.items()) == 1:
+-                                    # filter for the wrong label "UNLABELLED" - usually contains the text "ABSTRACT: - not used:
+-                                    if child_AbstractText.items()[0][1] == "UNLABELLED":
+-                                        temp_abstract_text += child_AbstractText.text + "\n"
+-                                    else:
+-                                        temp_abstract_text += child_AbstractText.items()[0][1] + ":\n" + child_AbstractText.text +
+"\n"
+-                                # label and NlmCategory - take label - first index has to be one:
+-                                if len(child_AbstractText.items()) == 2:
+-                                    temp_abstract_text += child_AbstractText.items()[1][1] + ":\n" + child_AbstractText.text + "\n"
+
+-                    # if there is only one AbstractText-Tag ("usually") - no labels used:
+-                    if elem.find("AbstractText") != None and len(elem.findall("AbstractText")) == 1:
+-                        temp_abstract_text = elem.findtext("AbstractText")
+-                    # append abstract text for later pushing it into db:
+-                    DBAbstract.abstract_text = temp_abstract_text
+-                    # next 3 lines are unchanged - some abstract texts (few) contain the child-tag "CopyrightInformation" after all
+ AbstractText-Tags:
+-                    if elem.find("CopyrightInformation") != None:
+-                        DBAbstract.copyright_information = elem.find("CopyrightInformation").text
+-                    DBCitation.abstracts.append(DBAbstract)
+-                # end Kersten - code changed
+-
+-                """
+-                #old code:
+-                if elem.tag == "Abstract":
+-                    DBAbstract = PubMedDB.Abstract()
+-                    DBCitation.abstracts = []
+-
+-                    if elem.find("AbstractText") != None:   DBAbstract.abstract_text = elem.find("AbstractText").text
+-                    if elem.find("CopyrightInformation") != None:   DBAbstract.copyright_information = elem.find("CopyrightInformat
+ion").text
+-                    DBCitation.abstracts.append(DBAbstract)
+-                """
+-                if elem.tag == "KeywordList":
+-                    #catch KeyError in case there is no Owner attribute before committing DBCitation
+-                    try:
+-                        DBCitation.keyword_list_owner = elem.attrib["Owner"]
+-                    except:
+-                        pass
+-                    DBCitation.keywords = []
+-                    all_keywords = []
+-                    for subelem in elem:
+-                        #some documents contain duplicate keywords which would lead to a key error - if-clause
+-                        if not subelem.text in all_keywords:
+-                            all_keywords.append(subelem.text)
+-                        else:
+-                            continue
+-                        DBKeyword = PubMedDB.Keyword()
+-                        DBKeyword.keyword = subelem.text
+-                        #catch KeyError in case there is no MajorTopicYN attribute before committing DBCitation
+-                        try:
+-                            DBKeyword.keyword_major_yn = subelem.attrib["MajorTopicYN"]
+-                        except:
+-                            pass
+-
+-                        # null check for keyword
+-                        if not DBKeyword.keyword == None:
+-                            DBCitation.keywords.append(DBKeyword)
+-
+-                if elem.tag == "Affiliation":
+-                    if len(elem.text) < 2000:
+-                        DBCitation.article_affiliation = elem.text
+-                    else:
+-                        DBCitation.article_affiliation = elem.text[0:1996] + "..."
+-
+-                if elem.tag == "SupplMeshList":
+-                    DBCitation.suppl_mesh_names = []
+-                    for suppl_mesh in elem:
+-                        DBSupplMeshName = PubMedDB.SupplMeshName()
+-                        if len(suppl_mesh.text) < 80:
+-                            DBSupplMeshName.suppl_mesh_name = suppl_mesh.text
+-                        else:
+-                            DBSupplMeshName.suppl_mesh_name = suppl_mesh.text[0:76] + "..."
+-                        DBSupplMeshName.suppl_mesh_name_ui = suppl_mesh.attrib['UI']
+-                        DBSupplMeshName.suppl_mesh_name_type = suppl_mesh.attrib['Type']
+-                        DBCitation.suppl_mesh_names.append(DBSupplMeshName)
+-
+-        self.session.commit()
+-        return True
+-
+-
+-def get_memory_usage(pid=os.getpid(), format="%mem"):
+-    """
+-        Get the Memory Usage from a specific process
+-        @pid = Process ID
+-        @format = % or kb (%mem or rss) ...
+-    """
+-    return float(os.popen('ps -p %d -o %s | tail -1' %
+-                        (pid, format)).read().strip())
+-
+-
+-def _start_parser(path):
+-    """
+-        Used to start MultiProcessor Parsing
+-    """
+-    print path, '\tpid:', os.getpid()
+-    p = MedlineParser(path,db)
+-    s = p._parse()
+-    return path
+-
+-#uses global variable "db" because of result.get()
+-def run(medline_path, clean, start, end, PROCESSES):
+-    con = 'postgresql://parser:parser@localhost/'+db
+-
+-    if end != None:
+-        end = int(end)
+-
+-    if clean:
+-        PubMedDB.create_tables(db)
+-
+-    PubMedDB.init(db)
+-
+-    paths = []
+-    for root, dirs, files in os.walk(medline_path):
+-        for filename in files:
+-            if os.path.splitext(filename)[-1] in [".xml", ".gz"]:
+-                paths.append(os.path.join(root,filename))
+-
+-    paths.sort()
+-
+-
+-    pool = Pool(processes=PROCESSES)    # start with processors
+-    print "Initialized with ", PROCESSES, "processes"
+-    #result.get() needs global variable db now - that is why a line "db = options.database" is added in "__main__" - the variable d
+b cannot be given to __start_parser in map_async()
+-    result = pool.map_async(_start_parser, paths[start:end])
+-    res = result.get()
+-    #without multiprocessing:
+-    #for path in paths:
+-    #    _start_parser(path)
+-
+-    print "######################"
+-    print "###### Finished ######"
+-    print "######################"
+-
+-
+-if __name__ == "__main__":
+-    from optparse import OptionParser
+-
+-    parser = OptionParser()
+-    parser.add_option("-c", "--no_cleaning", dest="clean",
+-                      action="store_false", default=True,
+-                      help="Truncate the Database before running the parser (default: True).")
+-    parser.add_option("-s", "--start",
+-                      dest="start", default=0,
+-                      help="All queued files are passed if no start and end parameter is set. Otherwise you can specify a start and
+ end o the queue. For example to split the parsing on several machines.")
+-    parser.add_option("-e", "--end",
+-                      dest="end", default=None,
+-                      help="All queued files are passed if no start and end parameter is set. Otherwise you can specify a start and
+ end o the queue. For example to split the parsing on several machines.")
+-    parser.add_option("-i", "--input", dest="medline_path",
+-                      default='data/pancreatic_cancer/',
+-                      help="specify the path to the medine XML-Files (default: data/pancreatic_cancer/)")
+-    parser.add_option("-p", "--processes",
+-                      dest="PROCESSES", default=2,
+-                      help="How many processes should be used. (Default: 2)")
+-    parser.add_option("-d", "--database",
+-                      dest="database", default="pancreatic_cancer_db",
+-                      help="What is the name of the database. (Default: pancreatic_cancer_db)")
+-
+-    (options, args) = parser.parse_args()
+-    db = options.database
+-    #log start time of programme:
+-    start = time.asctime()
+-    run(options.medline_path, options.clean, int(options.start), options.end, int(options.PROCESSES))
+-    #end time programme
+-    end = time.asctime()
+-
+-    print "programme started - " + start
+-    print "programme ended - " + end
++#!/usr/bin/env python
++# -*- coding: UTF-8 -*-
++
++"""
++    Copyright (c) 2014, Bjoern Gruening <bjoern.gruening@gmail.com>, Kersten Doering <kersten.doering@gmail.com>
++
++    This parser reads XML files from PubMed and extracts titles,
++    abstracts (no full texts), authors, dates, etc. and directly loads them
++    into the pubmed PostgreSQL database schema (defined in PubMedDB.py).
++"""
++
++import sys, os
++import xml.etree.cElementTree as etree
++import datetime, time
++import warnings
++import logging
++import time
++
++import PubMedDB
++from sqlalchemy.orm import *
++from sqlalchemy import *
++from sqlalchemy.exc import *
++import gzip
++from multiprocessing import Pool
++
++
++WARNING_LEVEL = "always" #error, ignore, always, default, module, once
++# multiple processes, #processors-1 is optimal!
++PROCESSES = 4
++
++warnings.simplefilter(WARNING_LEVEL)
++
++#convert 3 letter code of months to digits for unique publication format
++month_code = {"Jan":"01","Feb":"02","Mar":"03","Apr":"04","May":"05","Jun":"06","Jul":"07","Aug":"08","Sep":"09","Oct":"10","Nov":"
+11","Dec":"12"}
++
+-    #end time programme
+-    end = time.asctime()
+-
+-    print "programme started - " + start
+-    print "programme ended - " + end
++#!/usr/bin/env python
++# -*- coding: UTF-8 -*-
++
++"""
++    Copyright (c) 2014, Bjoern Gruening <bjoern.gruening@gmail.com>, Kersten Doering <kersten.doering@gmail.com>
++
++    This parser reads XML files from PubMed and extracts titles,
++    abstracts (no full texts), authors, dates, etc. and directly loads them
++    into the pubmed PostgreSQL database schema (defined in PubMedDB.py).
++"""
++
++import sys, os
++import xml.etree.cElementTree as etree
++import datetime, time
++import warnings
++import logging
++import time
++
++import PubMedDB
++from sqlalchemy.orm import *
++from sqlalchemy import *
++from sqlalchemy.exc import *
++import gzip
++from multiprocessing import Pool
++
++
++WARNING_LEVEL = "always" #error, ignore, always, default, module, once
++# multiple processes, #processors-1 is optimal!
++PROCESSES = 4
++
++warnings.simplefilter(WARNING_LEVEL)
++
++#convert 3 letter code of months to digits for unique publication format
++month_code = {"Jan":"01","Feb":"02","Mar":"03","Apr":"04","May":"05","Jun":"06","Jul":"07","Aug":"08","Sep":"09","Oct":"10","Nov":"
+11","Dec":"12"}
++
++class MedlineParser:
++    #db is a global variable and given to MedlineParser(path,db) in _start_parser(path)
++    def __init__(self, filepath,db):
++        engine, Base = PubMedDB.init(db)
++        Session = sessionmaker(bind=engine)
++        self.filepath = filepath
++        self.session = Session()
++
++
++    def shorten(self, string, max_length):
++        if string is None or len(string) < max_length:
++            return string
++        else:
++            return string[:max_length - 4] + '...'
++
++
++    def _parse(self):
++        _file = self.filepath
++
++        """
++        a = self.session.query(PubMedDB.XMLFile.xml_file_name).filter_by(xml_file_name = os.path.split(self.filepath)[-1])
++        if a.all():
++            print self.filepath, 'already in DB'
++            return True
++        """
++
++        if os.path.splitext(_file)[-1] == ".gz":
++            _file = gzip.open(_file, 'rb')
++
++        # get an iterable
++        context = etree.iterparse(_file, events=("start", "end"))
++        # turn it into an iterator
++        context = iter(context)
++
++        # get the root element
++        event, root = context.next()
++
++        DBCitation = PubMedDB.Citation()
++        DBJournal = PubMedDB.Journal()
++
++
++        DBXMLFile = PubMedDB.XMLFile()
++        DBXMLFile.xml_file_name = os.path.split(self.filepath)[-1]
++        DBXMLFile.time_processed = datetime.datetime.now()#time.localtime()
++
++        loop_counter = 0 #to check for memory usage each X loops
++
++        for event, elem in context:
++
++            if event == "end":
++                if elem.tag == "MedlineCitation" or elem.tag == "BookDocument":
++                    loop_counter += 1
++                    #catch KeyError in case there is no Owner or Status attribute before committing DBCitation
++                    try:
++                        DBCitation.citation_owner = elem.attrib["Owner"]
++                    except:
++                        pass
++                    try:
++                        DBCitation.citation_status = elem.attrib["Status"]
++                    except:
++                        pass
++                    DBCitation.journals = [DBJournal]
++
++                    pubmed_id = int(elem.find("PMID").text)
++                    DBCitation.pmid = pubmed_id
++
++                    try:
++                        same_pmid = self.session.query(PubMedDB.Citation).filter( PubMedDB.Citation.pmid == pubmed_id ).all()
++                        # The following condition is only for incremental updates.
++
++                        """
++                        # Implementation that replaces the database entry with the new article from the XML file.
++                        if same_pmid: # -> evt. any()
++                            same_pmid = same_pmid[0]
++                            warnings.warn('\nDoubled Citation found (%s).' % pubmed_id)
++                            if not same_pmid.date_revised or same_pmid.date_revised < DBCitation.date_revised:
++                                warnings.warn('\nReplace old Citation. Old Citation from %s, new citation from %s.' % (same_pmid.da
+te_revised, DBCitation.date_revised) )
++                                self.session.delete( same_pmid )
++                                self.session.commit()
++                                DBCitation.xml_files = [DBXMLFile] # adds an implicit add()
++                                self.session.add( DBCitation )
++                        """
++
++                        # Keep database entry that is already saved in database and continue with the next PubMed-ID.
++                        # Manually deleting entries is possible (with PGAdmin3 or via command-line), e.g.:
++                        # DELETE FROM pubmed.tbl_medline_citation WHERE pmid = 25005691;
++                        if same_pmid:
++                            print "Article already in database - " + str(same_pmid[0]) + "Continuing with next PubMed-ID"
++                            DBCitation = PubMedDB.Citation()
++                            DBJournal = PubMedDB.Journal()
++                            elem.clear()
++                            self.session.commit()
++                            continue
++                        else:
++                            DBCitation.xml_files = [DBXMLFile] # adds an implicit add()
++                            self.session.add(DBCitation)
++
++                        if loop_counter % 1000 == 0:
++                            self.session.commit()
++
++                    except (IntegrityError) as error:
++                        warnings.warn("\nIntegrityError: "+str(error), Warning)
++                        self.session.rollback()
++                    except Exception as e:
++                        warnings.warn("\nUnbekannter Fehler:"+str(e), Warning)
++                        self.session.rollback()
++                        raise
++
++                    DBCitation = PubMedDB.Citation()
++                    DBJournal = PubMedDB.Journal()
++                    elem.clear()
++
++                #Kersten: some dates are given in 3-letter code - use dictionary month_code for conversion to digits:
++                if elem.tag == "DateCreated":
++                    try:
++                        date = datetime.date(int(elem.find("Year").text), int(elem.find("Month").text), int(elem.find("Day").text))
++                    except:
++                        date = datetime.date(int(elem.find("Year").text), int(month_code[elem.find("Month").text]), int(elem.find("
+Day").text))
++                    DBCitation.date_created = date
++
++                if elem.tag == "DateCompleted":
++                    try:
++                        date = datetime.date(int(elem.find("Year").text), int(elem.find("Month").text), int(elem.find("Day").text))
++                    except:
++                        date = datetime.date(int(elem.find("Year").text), int(month_code[elem.find("Month").text]), int(elem.find("
+Day").text))
++                    DBCitation.date_completed = date
++
++                if elem.tag == "DateRevised":
++                    try:
++                        date = datetime.date(int(elem.find("Year").text), int(elem.find("Month").text), int(elem.find("Day").text))
++                    except:
++                        date = datetime.date(int(elem.find("Year").text), int(month_code[elem.find("Month").text]), int(elem.find("
+Day").text))
++                    DBCitation.date_revised = date
++
++                if elem.tag == "NumberOfReferences":
++                    DBCitation.number_of_references = elem.text
++
++                if elem.tag == "ISSN":
++                    DBJournal.issn = elem.text
++                    DBJournal.issn_type = elem.attrib['IssnType']
++
++                if elem.tag == "JournalIssue" or elem.tag == "Book":
++                    if elem.find("Volume") != None:         DBJournal.volume = elem.find("Volume").text
++                    if elem.find("Issue") != None:          DBJournal.issue = elem.find("Issue").text
++
++                    #ensure pub_date_year with boolean year:
++                    year = False
++                    for subelem in elem.find("PubDate"):
++                        if subelem.tag == "MedlineDate":
++                            if len(subelem.text) > 40:
++                                DBJournal.medline_date = subelem.text[:37] + "..."
++                            else:
++                                DBJournal.medline_date = subelem.text
++                        elif subelem.tag == "Year":
++                            year = True
++                            DBJournal.pub_date_year = subelem.text
++                        elif subelem.tag == "Month":
++                            if subelem.text in month_code:
++                                DBJournal.pub_date_month = month_code[subelem.text]
++                            else:
++                                DBJournal.pub_date_month = subelem.text
++                        elif subelem.tag == "Day":
++                            DBJournal.pub_date_day = subelem.text
++                    # try to cast year from beginning of MedlineDate string
++                    if not year:
++                        try:
++                            temp_year = int (subelem.text[0:4])
++                            DBJournal.pub_date_year = temp_year
++                            year = True
++                        except:
++                            print _file, " not able to cast first 4 letters of medline_date", subelem.text
++                    # try to cast year from end of MedlineDate string
++                    if not year:
++                        try:
++                            temp_year = int (subelem.text[-4:])
++                            DBJournal.pub_date_year = temp_year
++                            year = True
++                        except:
++                            print _file, " not able to cast last 4 letters of medline_date", subelem.text
++
++                #if there is the attribute ArticleDate, month and day are given
++                if elem.tag == "ArticleDate":
++                    DBJournal.pub_date_year = elem.find("Year").text
++                    DBJournal.pub_date_month = elem.find("Month").text
++                    DBJournal.pub_date_day = elem.find("Day").text
++
++                if elem.tag == "Title":
++                    """ ToDo """
++                    pass
++
++                if elem.tag == "Journal":
++                    if elem.find("Title") != None:
++                        DBJournal.title = elem.find("Title").text
++                    if elem.find("ISOAbbreviation") != None:
++                        DBJournal.iso_abbreviation = elem.find("ISOAbbreviation").text
++
++                if elem.tag == "ArticleTitle" or elem.tag == "BookTitle":
++                    if elem.text != None:
++                        DBCitation.article_title = elem.text
++                    # add string because of not null constraint
++                    else:
++                        DBCitation.article_title = "No title"
++                if elem.tag == "MedlinePgn":
++                    DBCitation.medline_pgn = elem.text
++
++                if elem.tag == "AuthorList":
++                    #catch KeyError in case there is no CompleteYN attribute before committing DBCitation
++                    try:
++                        DBCitation.article_author_list_comp_yn = elem.attrib["CompleteYN"]
++                    except:
++                        pass
++
++                    DBCitation.authors = []
++                    for author in elem:
++                        DBAuthor = PubMedDB.Author()
++
++                        if author.find("LastName") != None:
++                            DBAuthor.last_name = author.find("LastName").text
++
++                        # Forname is restricted to 100 characters
++                        if author.find("ForeName") != None and author.find("ForeName").text != None:
++                            temp_forname = author.find("ForeName").text
++                            if len(temp_forname) < 100:
++                                DBAuthor.fore_name = temp_forname
++                            else:
++                                DBAuthor.fore_name = author.find("ForeName").text[0:97] + "..."
++
++                        if author.find("Initials") != None:
++                            DBAuthor.initials = author.find("Initials").text
++
++                        # Suffix is restricted to 20 characters
++                        if author.find("Suffix") != None and author.find("Suffix").text != None:
++                            temp_suffix = author.find("Suffix").text
++                            if len(temp_suffix)  < 20:
++                                DBAuthor.suffix = temp_suffix
++                            else:
++                                DBAuthor.suffix = temp_suffix[0:17] + "..."
++
++                        if author.find("CollectiveName") != None:
++                            DBAuthor.collective_name = author.find("CollectiveName").text
++
++                        DBCitation.authors.append(DBAuthor)
++
++                if elem.tag == "PersonalNameSubjectList":
++                    DBCitation.personal_names = []
++                    for pname in elem:
++                        DBPersonalName = PubMedDB.PersonalName()
++
++                        if pname.find("LastName") != None:
++                            DBPersonalName.last_name = pname.find("LastName").text
++                        if pname.find("ForeName") != None:
++                            DBPersonalName.fore_name = pname.find("ForeName").text
++                        if pname.find("Initials") != None:
++                            DBPersonalName.initials = pname.find("Initials").text
++                        if pname.find("Suffix") != None:
++                            DBPersonalName.suffix = pname.find("Suffix").text
++
++                        DBCitation.personal_names.append(DBPersonalName)
++
++
++                if elem.tag == "InvestigatorList":
++                    DBCitation.investigators = []
++                    for investigator in elem:
++                        DBInvestigator = PubMedDB.Investigator()
++
++                        if investigator.find("LastName") != None:
++                            DBInvestigator.last_name = investigator.find("LastName").text
++
++                        if investigator.find("ForeName") != None:
++                            DBInvestigator.fore_name = investigator.find("ForeName").text
++
++                        if investigator.find("Initials") != None:
++                            DBInvestigator.initials = investigator.find("Initials").text
++
++                        if investigator.find("Suffix") != None:
++                            temp_suffix = investigator.find("Suffix").text
++                            # suffix is restricted to 20 characters
++                            if len(temp_suffix) < 20:
++                                DBInvestigator.suffix = temp_suffix
++                            else:
++                                DBInvestigator.suffix = temp_suffix[:17] + '...'
++
++                        if investigator.find("Affiliation") != None:
++                            DBInvestigator.investigator_affiliation = investigator.find("Affiliation").text
++
++                        DBCitation.investigators.append(DBInvestigator)
++
++                if elem.tag == "SpaceFlightMission":
++                    DBSpaceFlight = PubMedDB.SpaceFlight()
++                    DBSpaceFlight.space_flight_mission = elem.text
++                    DBCitation.space_flights = [DBSpaceFlight]
++
++                if elem.tag == "GeneralNote":
++                    DBCitation.notes = []
++                    for subelem in elem:
++                        DBNote = PubMedDB.Note()
++                        DBNote.general_note_owner = elem.attrib["Owner"]
++                        DBNote.general_note = subelem.text
++                        DBCitation.notes.append(DBNote)
++
++                if elem.tag == "ChemicalList":
++                    DBCitation.chemicals = []
++                    for chemical in elem:
++                        DBChemical = PubMedDB.Chemical()
++
++                        if chemical.find("RegistryNumber") != None:
++                            DBChemical.registry_number = chemical.find("RegistryNumber").text
++                        if chemical.find("NameOfSubstance") != None:
++                            DBChemical.name_of_substance = chemical.find("NameOfSubstance").text
++                            DBChemical.substance_ui = chemical.find("NameOfSubstance").attrib['UI']
++                        DBCitation.chemicals.append(DBChemical)
++
++                if elem.tag == "GeneSymbolList":
++                    DBCitation.gene_symbols = []
++                    for genes in elem:
++                        DBGeneSymbol = PubMedDB.GeneSymbol()
++                        if len(genes.text) < 40:
++                            DBGeneSymbol.gene_symbol = genes.text
++                        else:
++                            DBGeneSymbol.gene_symbol = genes.text[:37] + '...'
++                        DBCitation.gene_symbols.append(DBGeneSymbol)
++
++                if elem.tag == "CommentsCorrectionsList":
++
++                    DBCitation.comments = []
++                    for comment in elem:
++                        DBComment = PubMedDB.Comment()
++                        comment_ref_type = comment.attrib['RefType']
++                        comment_ref_source = comment.find('RefSource')
++
++                        if comment_ref_source != None and comment_ref_source.text != None:
++                            if len(comment_ref_source.text) < 255:
++                                DBComment.ref_source = comment_ref_source.text
++                            else:
++                                DBComment.ref_source = comment_ref_source.text[0:251] + "..."
++                        # add string because of not null constraint
++                        else:
++                            DBComment.ref_source = "No reference source"
++
++                        if comment_ref_type != None:
++                            if len(comment_ref_type) < 22:
++                                DBComment.ref_type = comment_ref_type
++                            else:
++                                DBComment.ref_type = comment_ref_type[0:18] + "..."
++                        comment_pmid_version = comment.find('PMID')
++
++                        if comment_pmid_version != None:
++                            DBComment.pmid_version = comment_pmid_version.text
++                        DBCitation.comments.append(DBComment)
++
++                if elem.tag == "MedlineJournalInfo":
++                    DBJournalInfo = PubMedDB.JournalInfo()
++                    if elem.find("NlmUniqueID") != None:
++                        DBJournalInfo.nlm_unique_id = elem.find("NlmUniqueID").text
++                    if elem.find("Country") != None:
++                        DBJournalInfo.country = elem.find("Country").text
++                    """#MedlineTA is just a name for the journal as an abbreviation
++                    Abstract with PubMed-ID 21625393 has no MedlineTA attributebut it has to be set in PostgreSQL, that is why "unk
+nown" is inserted instead. There is just a <MedlineTA/> tag and the same information is given in  </JournalIssue> <Title>Biotechnolo
+gy and bioprocess engineering : BBE</Title>, but this is not (yet) read in this parser -> line 173:
++                    """
++                    if elem.find("MedlineTA") != None and elem.find("MedlineTA").text == None:
++                        DBJournalInfo.medline_ta = "unknown"
++                    elif elem.find("MedlineTA") != None:
++                        DBJournalInfo.medline_ta = elem.find("MedlineTA").text
++                    DBCitation.journal_infos = [DBJournalInfo]
++
++                if elem.tag == "CitationSubset":
++                    DBCitation.citation_subsets = []
++                    for subelem in elem:
++                        DBCitationSubset = CitationSubset(subelem.text)
++                        DBCitation.citation_subsets.append(DBCitationSubset)
++
++                if elem.tag == "MeshHeadingList":
++                    DBCitation.meshheadings = []
++                    DBCitation.qualifiers = []
++                    for mesh in elem:
++                        DBMeSHHeading = PubMedDB.MeSHHeading()
++                        mesh_desc = mesh.find("DescriptorName")
++                        if mesh_desc != None:
++                            DBMeSHHeading.descriptor_name = mesh_desc.text
++                            DBMeSHHeading.descriptor_name_major_yn = mesh_desc.attrib['MajorTopicYN']
++                            DBMeSHHeading.descriptor_ui = mesh_desc.attrib['UI']
++                        if mesh.find("QualifierName") != None:
++                            mesh_quals = mesh.findall("QualifierName")
++                            for qual in mesh_quals:
++                                DBQualifier = PubMedDB.Qualifier()
++                                DBQualifier.descriptor_name = mesh_desc.text
++                                DBQualifier.qualifier_name = qual.text
++                                DBQualifier.qualifier_name_major_yn = qual.attrib['MajorTopicYN']
++                                DBQualifier.qualifier_ui = qual.attrib['UI']
++                                DBCitation.qualifiers.append(DBQualifier)
++                        DBCitation.meshheadings.append(DBMeSHHeading)
++
++                if elem.tag == "GrantList":
++                    #catch KeyError in case there is no CompleteYN attribute before committing DBCitation
++                    try:
++                        DBCitation.grant_list_complete_yn = elem.attrib["CompleteYN"]
++                    except:
++                        pass
++                    DBCitation.grants = []
++                    for grant in elem:
++                        DBGrants = PubMedDB.Grant()
++
++                        # grantid is restricted to 200 characters
++                        if grant.find("GrantID") != None and grant.find("GrantID").text != None:
++                            temp_grantid = grant.find("GrantID").text
++                            if len(temp_grantid) < 200:
++                                DBGrants.grantid = temp_grantid
++                            else:
++                                DBGrants.grantid = temp_grantid[0:197] + "..."
++
++                        if grant.find("Acronym") != None:
++                            DBGrants.acronym = grant.find("Acronym").text
++
++                        # agency is restricted to 200 characters
++                        if grant.find("Agency") != None and grant.find("Agency").text != None:
++                            temp_agency = grant.find("Agency").text
++                            if len(temp_agency) < 200:
++                                DBGrants.agency = temp_agency
++                            else:
++                                DBGrants.agency = temp_agency[0:197] + "..."
++
++                        if grant.find("Country") != None:
++                            DBGrants.country = grant.find("Country").text
++
++                        DBCitation.grants.append(DBGrants)
++
++                if elem.tag == "DataBankList":
++                    #catch KeyError in case there is no CompleteYN attribute before committing DBCitation
++                    try:
++                        DBCitation.data_bank_list_complete_yn = elem.attrib["CompleteYN"]
++                    except:
++                        pass
++                    DBCitation.accessions = []
++                    DBCitation.databanks = []
++
++                    all_databanks = []
++                    all_acc_numbers = {}
++
++                    for databank in elem:
++                        temp_name = databank.find("DataBankName").text
++                        # check unique data_bank_name per PubMed ID and not null
++                        if temp_name != None and not temp_name in all_databanks:
++                            DBDataBank = PubMedDB.DataBank()
++                            DBDataBank.data_bank_name = temp_name
++                            DBCitation.databanks.append(DBDataBank)
++                            all_databanks.append(temp_name)
++                            all_acc_numbers[temp_name] = []
++
++                        acc_numbers = databank.find("AccessionNumberList")
++
++                        if acc_numbers != None and temp_name != None:
++                            for acc_number in acc_numbers:
++                                # check unique accession number per PubMed ID and data_bank_name
++                                if not acc_number.text in all_acc_numbers[temp_name]:
++                                    DBAccession = PubMedDB.Accession()
++                                    DBAccession.data_bank_name = DBDataBank.data_bank_name
++                                    DBAccession.accession_number = acc_number.text
++                                    DBCitation.accessions.append(DBAccession)
++                                    all_acc_numbers[temp_name].append(acc_number.text)
++
++                if elem.tag == "Language":
++                    DBLanguage = PubMedDB.Language()
++                    DBLanguage.language = elem.text
++                    DBCitation.languages = [DBLanguage]
++
++                if elem.tag == "PublicationTypeList":
++                    DBCitation.publication_types = []
++                    all_publication_types = []
++                    for subelem in elem:
++                        # check for unique elements in PublicationTypeList
++                        if not subelem.text in all_publication_types:
++                            DBPublicationType = PubMedDB.PublicationType()
++                            DBPublicationType.publication_type = subelem.text
++                            DBCitation.publication_types.append(DBPublicationType)
++                            all_publication_types.append(subelem.text)
++
++                if elem.tag == "Article":
++                    #ToDo
++                    """
++                    for subelem in elem:
++                        if subelem.tag == "Journal":
++                            for sub_subelem in subelem:
++                                pass
++                        if subelem.tag == "JArticleTitle":
++                            pass
++                        if subelem.tag == "JPagination":
++                            pass
++                        if subelem.tag == "JLanguage":
++                            pass
++                        if subelem.tag == "JPublicationTypeList":
++                            pass
++                    """
++
++                if elem.tag == "VernacularTitle":
++                    DBCitation.vernacular_title = elem.tag
++
++                if elem.tag == "OtherAbstract":
++                    DBOtherAbstract = PubMedDB.OtherAbstract()
++                    DBCitation.other_abstracts = []
++                    for other in elem:
++                        if other.tag == "AbstractText":
++                             DBOtherAbstract.other_abstract = other.text
++                    DBCitation.other_abstracts.append(DBOtherAbstract)
++
++                if elem.tag == "OtherID":
++                    DBCitation.other_ids = []
++                    DBOtherID = PubMedDB.OtherID()
++                    if len(elem.text) < 80:
++                        DBOtherID.other_id = elem.text
++                    else:
++                        DBOtherID.other_id = elem.text[0:77] + "..."
++                    DBOtherID.other_id_source = elem.attrib['Source']
++                    DBCitation.other_ids.append(DBOtherID)
++
++                # start Kersten: some abstracts contain another structure - code changed:
++                # check for different labels: "OBJECTIVE", "CASE SUMMARY", ...
++                # next 3 lines are unchanged
++                if elem.tag == "Abstract":
++                    DBAbstract = PubMedDB.Abstract()
++                    DBCitation.abstracts = []
++                    #prepare empty string for "normal" abstracts or "labelled" abstracts
++                    temp_abstract_text = ""
++                    #if there are multiple AbstractText-Tags:
++                    if elem.find("AbstractText") != None and len(elem.findall("AbstractText")) > 1:
++                        for child_AbstractText in elem.getchildren():
++                            # iteration over all labels is needed otherwise only "OBJECTIVE" would be pushed into database
++                            # debug: check label
++                            # [('NlmCategory', 'METHODS'), ('Label', 'CASE SUMMARY')]
++                            # ...
++                            # also checked for empty child-tags in this structure!
++                            if child_AbstractText.tag == "AbstractText" and child_AbstractText.text != None:
++                            #if child_AbstractText.tag == "AbstractText": # would give an error!
++                                # no label - this case should not happen with multiple AbstractText-Tags:
++                                if len(child_AbstractText.items()) == 0:
++                                    temp_abstract_text +=child_AbstractText.text + "\n"
++                                # one label or the NlmCategory - first index has to be zero:
++                                if len(child_AbstractText.items()) == 1:
++                                    # filter for the wrong label "UNLABELLED" - usually contains the text "ABSTRACT: - not used:
++                                    if child_AbstractText.items()[0][1] == "UNLABELLED":
++                                        temp_abstract_text += child_AbstractText.text + "\n"
++                                    else:
++                                        temp_abstract_text += child_AbstractText.items()[0][1] + ":\n" + child_AbstractText.text +
+"\n"
++                                # label and NlmCategory - take label - first index has to be one:
++                                if len(child_AbstractText.items()) == 2:
++                                    temp_abstract_text += child_AbstractText.items()[1][1] + ":\n" + child_AbstractText.text + "\n"
++                    # if there is only one AbstractText-Tag ("usually") - no labels used:
++                    if elem.find("AbstractText") != None and len(elem.findall("AbstractText")) == 1:
++                        temp_abstract_text = elem.findtext("AbstractText")
++                    # append abstract text for later pushing it into db:
++                    DBAbstract.abstract_text = temp_abstract_text
++                    # next 3 lines are unchanged - some abstract texts (few) contain the child-tag "CopyrightInformation" after all
+ AbstractText-Tags:
++                    if elem.find("CopyrightInformation") != None:
++                        DBAbstract.copyright_information = elem.find("CopyrightInformation").text
++                    DBCitation.abstracts.append(DBAbstract)
++                # end Kersten - code changed
++
++                """
++                #old code:
++                if elem.tag == "Abstract":
++                    DBAbstract = PubMedDB.Abstract()
++                    DBCitation.abstracts = []
++
++                    if elem.find("AbstractText") != None:   DBAbstract.abstract_text = elem.find("AbstractText").text
++                    if elem.find("CopyrightInformation") != None:   DBAbstract.copyright_information = elem.find("CopyrightInformat
+ion").text
++                    DBCitation.abstracts.append(DBAbstract)
++                """
++                if elem.tag == "KeywordList":
++                    #catch KeyError in case there is no Owner attribute before committing DBCitation
++                    try:
++                        DBCitation.keyword_list_owner = elem.attrib["Owner"]
++                    except:
++                        pass
++                    DBCitation.keywords = []
++                    all_keywords = []
++                    for subelem in elem:
++                        #some documents contain duplicate keywords which would lead to a key error - if-clause
++                        if not subelem.text in all_keywords:
++                            all_keywords.append(subelem.text)
++                        else:
++                            continue
++                        DBKeyword = PubMedDB.Keyword()
++                        DBKeyword.keyword = self.shorten(subelem.text, 500)
++                        #catch KeyError in case there is no MajorTopicYN attribute before committing DBCitation
++                        try:
++                            DBKeyword.keyword_major_yn = subelem.attrib["MajorTopicYN"]
++                        except:
++                            pass
++
++                        # null check for keyword
++                        if not DBKeyword.keyword == None:
++                            DBCitation.keywords.append(DBKeyword)
++
++                if elem.tag == "Affiliation":
++                    if len(elem.text) < 2000:
++                        DBCitation.article_affiliation = elem.text
++                    else:
++                        DBCitation.article_affiliation = elem.text[0:1996] + "..."
++
++                if elem.tag == "SupplMeshList":
++                    DBCitation.suppl_mesh_names = []
++                    for suppl_mesh in elem:
++                        DBSupplMeshName = PubMedDB.SupplMeshName()
++                        if len(suppl_mesh.text) < 80:
++                            DBSupplMeshName.suppl_mesh_name = suppl_mesh.text
++                        else:
++                            DBSupplMeshName.suppl_mesh_name = suppl_mesh.text[0:76] + "..."
++                        DBSupplMeshName.suppl_mesh_name_ui = suppl_mesh.attrib['UI']
++                        DBSupplMeshName.suppl_mesh_name_type = suppl_mesh.attrib['Type']
++                        DBCitation.suppl_mesh_names.append(DBSupplMeshName)
++
++        self.session.commit()
++        return True
++
++
++def get_memory_usage(pid=os.getpid(), format="%mem"):
++    """
++        Get the Memory Usage from a specific process
++        @pid = Process ID
++        @format = % or kb (%mem or rss) ...
++    """
++    return float(os.popen('ps -p %d -o %s | tail -1' %
++                        (pid, format)).read().strip())
++
++
++def _start_parser(path):
++    """
++        Used to start MultiProcessor Parsing
++    """
++    print path, '\tpid:', os.getpid()
++    p = MedlineParser(path,db)
++    s = p._parse()
++    return path
++
++#uses global variable "db" because of result.get()
++def run(medline_path, clean, start, end, PROCESSES):
++    con = 'postgresql://parser:parser@localhost/'+db
++
++    if end != None:
++        end = int(end)
++
++    if clean:
++        PubMedDB.create_tables(db)
++
++    PubMedDB.init(db)
++
++    paths = []
++    for root, dirs, files in os.walk(medline_path):
++        for filename in files:
++            if os.path.splitext(filename)[-1] in [".xml", ".gz"]:
++                paths.append(os.path.join(root,filename))
++
++    paths.sort()
++
++
++    pool = Pool(processes=PROCESSES)    # start with processors
++    print "Initialized with ", PROCESSES, "processes"
++    #result.get() needs global variable db now - that is why a line "db = options.database" is added in "__main__" - the variable d
+b cannot be given to __start_parser in map_async()
++    result = pool.map_async(_start_parser, paths[start:end])
++    res = result.get()
++    #without multiprocessing:
++    #for path in paths:
++    #    _start_parser(path)
++
++    print "######################"
++    print "###### Finished ######"
++    print "######################"
++
++
++if __name__ == "__main__":
++    from optparse import OptionParser
++
++    parser = OptionParser()
++    parser.add_option("-c", "--no_cleaning", dest="clean",
++                      action="store_false", default=True,
++                      help="Truncate the Database before running the parser (default: True).")
++    parser.add_option("-s", "--start",
++                      dest="start", default=0,
++                      help="All queued files are passed if no start and end parameter is set. Otherwise you can specify a start and
+ end o the queue. For example to split the parsing on several machines.")
++    parser.add_option("-e", "--end",
++                      dest="end", default=None,
++                      help="All queued files are passed if no start and end parameter is set. Otherwise you can specify a start and
+ end o the queue. For example to split the parsing on several machines.")
++    parser.add_option("-i", "--input", dest="medline_path",
++                      default='data/pancreatic_cancer/',
++                      help="specify the path to the medine XML-Files (default: data/pancreatic_cancer/)")
++    parser.add_option("-p", "--processes",
++                      dest="PROCESSES", default=2,
++                      help="How many processes should be used. (Default: 2)")
++    parser.add_option("-d", "--database",
++                      dest="database", default="pancreatic_cancer_db",
++                      help="What is the name of the database. (Default: pancreatic_cancer_db)")
++
++    (options, args) = parser.parse_args()
++    db = options.database
++    #log start time of programme:
++    start = time.asctime()
++    run(options.medline_path, options.clean, int(options.start), options.end, int(options.PROCESSES))
++    #end time programme
++    end = time.asctime()
++
++    print "programme started - " + start
++    print "programme ended - " + end
+diff --git a/test/README.md b/test/README.md
+new file mode 100644
+index 0000000..d9c0578
+--- /dev/null
++++ b/test/README.md
+@@ -0,0 +1,7 @@
++
++# How to run the tests
++
++1. Install pytest. For example, `conda install pytest` or `pip install pytest`.
++
++1. Execute the `py.test` command
++   (probably from the root folder, that is, where the `PubMedParser.py` is located).
+diff --git a/test/__init__.py b/test/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/test/resources/article-with-long-keyword/article-with-long-keyword.xml b/test/resources/article-with-long-keyword/artic
+le-with-long-keyword.xml
+new file mode 100644
+index 0000000..2c5a64d
+--- /dev/null
++++ b/test/resources/article-with-long-keyword/article-with-long-keyword.xml
+@@ -0,0 +1,276 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2018//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed
+_180101.dtd">
++<PubmedArticleSet>
++  <PubmedArticle>
++    <MedlineCitation Status="PubMed-not-MEDLINE" Owner="NLM">
++      <PMID Version="1">29163864</PMID>
++      <DateRevised>
++        <Year>2017</Year>
++        <Month>11</Month>
++        <Day>26</Day>
++      </DateRevised>
++      <Article PubModel="Electronic-eCollection">
++        <Journal>
++          <ISSN IssnType="Print">2000-8066</ISSN>
++          <JournalIssue CitedMedium="Print">
++            <Volume>8</Volume>
++            <Issue>1</Issue>
++            <PubDate>
++              <Year>2017</Year>
++            </PubDate>
++          </JournalIssue>
++          <Title>European journal of psychotraumatology</Title>
++          <ISOAbbreviation>Eur J Psychotraumatol</ISOAbbreviation>
++        </Journal>
++        <ArticleTitle>Pathways into mental health care for UK veterans: a qualitative study.</ArticleTitle>
++        <Pagination>
++          <MedlinePgn>1389207</MedlinePgn>
++        </Pagination>
++        <ELocationID EIdType="doi" ValidYN="Y">10.1080/20008198.2017.1389207</ELocationID>
++        <Abstract>
++          <AbstractText><b>Background</b>: It is well established that veterans suffering from mental health difficulties under use
+ mental health services. <b>Objective</b>: This study aimed to understand more about the barriers that prevent veterans from seeking
+ professional help and the enablers that assist veterans in seeking professional help. It also aimed to explore potential mechanisms
+ to improve veterans' help-seeking and pathways to care. <b>Method</b>: The study employed a qualitative design whereby 17 veterans
+who had recently attended specialist veteran mental health services took part in semi-structured interviews. The resultant data were
+ analysed using grounded theory. <b>Results</b>: Participants described two distinct stages to their help-seeking: initial help-seek
+ing and pathways through treatment. Specific barriers and enablers to help-seeking were identified at each stage. Initial barriers i
+ncluded recognizing that there is a problem, self-stigma and anticipated public stigma. Initial enablers included being in crisis, s
+ocial support, motivation and the media. Treatment pathway barriers included practical factors and negative beliefs about health ser
+vices and professionals. Treatment pathway enablers included having a diagnosis, being seen in a veteran-specific service and establ
+ishing a good therapeutic relationship. Participants provided some suggestions for interventions to improve veterans' help-seeking i
+n future; these focussed on enhancing both veterans and health professionals' knowledge regarding mental health difficulties. <b>Con
+clusions</b>: This study identified a number of barriers and enablers that may impact a veteran's journey in seeking help from profe
+ssional services for mental health difficulties. Enablers such as reaching a crisis point, social support, the media, having a diagn
+osis of PTSD and veteran-specific mental health services appeared to be important in opposing stigma-related beliefs and in supporti
+ng veterans to engage in help-seeking behaviours.</AbstractText>
++        </Abstract>
++        <AuthorList CompleteYN="Y">
++          <Author ValidYN="Y">
++            <LastName>Mellotte</LastName>
++            <ForeName>Harriet</ForeName>
++            <Initials>H</Initials>
++            <Identifier Source="ORCID">0000-0002-4519-7746</Identifier>
++            <AffiliationInfo>
++              <Affiliation>Doctorate in Clinical Psychology, Addiction Sciences Building, Institute of Psychiatry, Psychology and N
+euroscience, King's College London, UK.</Affiliation>
++            </AffiliationInfo>
++          </Author>
++          <Author ValidYN="Y">
++            <LastName>Murphy</LastName>
++            <ForeName>Dominic</ForeName>
++            <Initials>D</Initials>
++            <Identifier Source="ORCID">0000-0002-9596-6603</Identifier>
++            <AffiliationInfo>
++              <Affiliation>King's Centre for Military Health Research, Weston Education Centre, King's College London, London, UK.<
+/Affiliation>
++            </AffiliationInfo>
++            <AffiliationInfo>
++              <Affiliation>Combat Stress, Tyrwhitt House, Leatherhead, Surrey, UK.</Affiliation>
++            </AffiliationInfo>
++          </Author>
++          <Author ValidYN="Y">
++            <LastName>Rafferty</LastName>
++            <ForeName>Laura</ForeName>
++            <Initials>L</Initials>
++            <Identifier Source="ORCID">0000-0003-4095-0222</Identifier>
++            <AffiliationInfo>
++              <Affiliation>King's Centre for Military Health Research, Weston Education Centre, King's College London, London, UK.<
+/Affiliation>
++            </AffiliationInfo>
++          </Author>
++          <Author ValidYN="Y">
++            <LastName>Greenberg</LastName>
++                      dest="PROCESSES", default=2,
++                      help="How many processes should be used. (Default: 2)")
++    parser.add_option("-d", "--database",
++                      dest="database", default="pancreatic_cancer_db",
++                      help="What is the name of the database. (Default: pancreatic_cancer_db)")
++
++    (options, args) = parser.parse_args()
++    db = options.database
++    #log start time of programme:
++    start = time.asctime()
++    run(options.medline_path, options.clean, int(options.start), options.end, int(options.PROCESSES))
++    #end time programme
++    end = time.asctime()
++
++    print "programme started - " + start
++    print "programme ended - " + end
+diff --git a/test/README.md b/test/README.md
+new file mode 100644
+index 0000000..d9c0578
+--- /dev/null
++++ b/test/README.md
+@@ -0,0 +1,7 @@
++
++# How to run the tests
++
++1. Install pytest. For example, `conda install pytest` or `pip install pytest`.
++
++1. Execute the `py.test` command
++   (probably from the root folder, that is, where the `PubMedParser.py` is located).
+diff --git a/test/__init__.py b/test/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/test/resources/article-with-long-keyword/article-with-long-keyword.xml b/test/resources/article-with-long-keyword/artic
+le-with-long-keyword.xml
+new file mode 100644
+index 0000000..2c5a64d
+--- /dev/null
++++ b/test/resources/article-with-long-keyword/article-with-long-keyword.xml
+@@ -0,0 +1,276 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2018//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed
+_180101.dtd">
++<PubmedArticleSet>
++  <PubmedArticle>
++    <MedlineCitation Status="PubMed-not-MEDLINE" Owner="NLM">
++      <PMID Version="1">29163864</PMID>
++      <DateRevised>
++        <Year>2017</Year>
++        <Month>11</Month>
++        <Day>26</Day>
++      </DateRevised>
++      <Article PubModel="Electronic-eCollection">
++        <Journal>
++          <ISSN IssnType="Print">2000-8066</ISSN>
++          <JournalIssue CitedMedium="Print">
++            <Volume>8</Volume>
++            <Issue>1</Issue>
++            <PubDate>
++              <Year>2017</Year>
++            </PubDate>
++          </JournalIssue>
++          <Title>European journal of psychotraumatology</Title>
++          <ISOAbbreviation>Eur J Psychotraumatol</ISOAbbreviation>
++        </Journal>
++        <ArticleTitle>Pathways into mental health care for UK veterans: a qualitative study.</ArticleTitle>
++        <Pagination>
++          <MedlinePgn>1389207</MedlinePgn>
++        </Pagination>
++        <ELocationID EIdType="doi" ValidYN="Y">10.1080/20008198.2017.1389207</ELocationID>
++        <Abstract>
++          <AbstractText><b>Background</b>: It is well established that veterans suffering from mental health difficulties under use
+ mental health services. <b>Objective</b>: This study aimed to understand more about the barriers that prevent veterans from seeking
+ professional help and the enablers that assist veterans in seeking professional help. It also aimed to explore potential mechanisms
+ to improve veterans' help-seeking and pathways to care. <b>Method</b>: The study employed a qualitative design whereby 17 veterans
+who had recently attended specialist veteran mental health services took part in semi-structured interviews. The resultant data were
+ analysed using grounded theory. <b>Results</b>: Participants described two distinct stages to their help-seeking: initial help-seek
+ing and pathways through treatment. Specific barriers and enablers to help-seeking were identified at each stage. Initial barriers i
+ncluded recognizing that there is a problem, self-stigma and anticipated public stigma. Initial enablers included being in crisis, s
+ocial support, motivation and the media. Treatment pathway barriers included practical factors and negative beliefs about health ser
+vices and professionals. Treatment pathway enablers included having a diagnosis, being seen in a veteran-specific service and establ
+ishing a good therapeutic relationship. Participants provided some suggestions for interventions to improve veterans' help-seeking i
+n future; these focussed on enhancing both veterans and health professionals' knowledge regarding mental health difficulties. <b>Con
+clusions</b>: This study identified a number of barriers and enablers that may impact a veteran's journey in seeking help from profe
+ssional services for mental health difficulties. Enablers such as reaching a crisis point, social support, the media, having a diagn
+osis of PTSD and veteran-specific mental health services appeared to be important in opposing stigma-related beliefs and in supporti
+ng veterans to engage in help-seeking behaviours.</AbstractText>
++        </Abstract>
++        <AuthorList CompleteYN="Y">
++          <Author ValidYN="Y">
++            <LastName>Mellotte</LastName>
++            <ForeName>Harriet</ForeName>
++            <Initials>H</Initials>
++            <Identifier Source="ORCID">0000-0002-4519-7746</Identifier>
++            <AffiliationInfo>
++              <Affiliation>Doctorate in Clinical Psychology, Addiction Sciences Building, Institute of Psychiatry, Psychology and N
+euroscience, King's College London, UK.</Affiliation>
++            </AffiliationInfo>
++          </Author>
++          <Author ValidYN="Y">
++            <LastName>Murphy</LastName>
++            <ForeName>Dominic</ForeName>
++            <Initials>D</Initials>
++            <Identifier Source="ORCID">0000-0002-9596-6603</Identifier>
++            <AffiliationInfo>
++              <Affiliation>King's Centre for Military Health Research, Weston Education Centre, King's College London, London, UK.<
+/Affiliation>
++            </AffiliationInfo>
++            <AffiliationInfo>
++              <Affiliation>Combat Stress, Tyrwhitt House, Leatherhead, Surrey, UK.</Affiliation>
++            </AffiliationInfo>
++          </Author>
++          <Author ValidYN="Y">
++            <LastName>Rafferty</LastName>
++            <ForeName>Laura</ForeName>
++            <Initials>L</Initials>
++            <Identifier Source="ORCID">0000-0003-4095-0222</Identifier>
++            <AffiliationInfo>
++              <Affiliation>King's Centre for Military Health Research, Weston Education Centre, King's College London, London, UK.<
+/Affiliation>
++            </AffiliationInfo>
++          </Author>
++          <Author ValidYN="Y">
++            <LastName>Greenberg</LastName>
++            <ForeName>Neil</ForeName>
++            <Initials>N</Initials>
++            <Identifier Source="ORCID">0000-0002-9891-6601</Identifier>
++            <AffiliationInfo>
++              <Affiliation>King's Centre for Military Health Research, Weston Education Centre, King's College London, London, UK.<
+/Affiliation>
++            </AffiliationInfo>
++          </Author>
++        </AuthorList>
++        <Language>eng</Language>
++        <PublicationTypeList>
++          <PublicationType UI="D016428">Journal Article</PublicationType>
++        </PublicationTypeList>
++        <ArticleDate DateType="Electronic">
++          <Year>2017</Year>
++          <Month>10</Month>
++          <Day>25</Day>
++        </ArticleDate>
++      </Article>
++      <MedlineJournalInfo>
++        <Country>United States</Country>
++        <MedlineTA>Eur J Psychotraumatol</MedlineTA>
++        <NlmUniqueID>101559025</NlmUniqueID>
++        <ISSNLinking>2000-8066</ISSNLinking>
++      </MedlineJournalInfo>
++      <CommentsCorrectionsList>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>J Gen Intern Med. 2001 Sep;16(9):606-13</RefSource>
++          <PMID Version="1">11556941</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Eur J Psychotraumatol. 2014 Feb 17;5:null</RefSource>
++          <PMID Version="1">24624262</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Eur J Psychotraumatol. 2010;1:null</RefSource>
++          <PMID Version="1">22893795</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>JAMA. 1984 Oct 12;252(14):1905-7</RefSource>
++          <PMID Version="1">6471323</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Arch Intern Med. 1998 Sep 14;158(16):1789-95</RefSource>
++          <PMID Version="1">9738608</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Psychol Med. 2017 Aug;47(11):1880-1892</RefSource>
++          <PMID Version="1">28290262</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Clin Psychol Rev. 2012 Dec;32(8):741-53</RefSource>
++          <PMID Version="1">23063627</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>BMC Health Serv Res. 2011 Feb 10;11:31</RefSource>
++          <PMID Version="1">21310027</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>J Nerv Ment Dis. 2011 Oct;199(10):797-801</RefSource>
++          <PMID Version="1">21964275</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Behav Res Ther. 1996 Aug;34(8):669-73</RefSource>
++          <PMID Version="1">8870294</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>J Anxiety Disord. 2014 Aug;28(6):547-52</RefSource>
++          <PMID Version="1">24983795</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Mil Med. 1994 Sep;159(9):602-5</RefSource>
++          <PMID Version="1">7800175</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Mil Med. 2008 Jun;173(6):563-9</RefSource>
++          <PMID Version="1">18595420</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Psychol Serv. 2012 Feb;9(1):26-37</RefSource>
++          <PMID Version="1">22449085</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Clin Psychol Rev. 2017 Mar;52:52-68</RefSource>
++          <PMID Version="1">28013081</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Adv Mind Body Med. 2004 Spring;20(1):18-29</RefSource>
++          <PMID Version="1">15068106</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Arch Intern Med. 2006 May 22;166(10):1092-7</RefSource>
++          <PMID Version="1">16717171</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Br J Psychiatry. 2014 Feb;204(2):93-5</RefSource>
++          <PMID Version="1">24493652</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Ann N Y Acad Sci. 1997 Jun 21;821:372-87</RefSource>
++          <PMID Version="1">9238218</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Mil Med. 2004 Mar;169(3):243-50</RefSource>
++          <PMID Version="1">15080247</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Eur J Psychotraumatol. 2012;3:null</RefSource>
++          <PMID Version="1">23233869</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Med Care. 2002 Jan;40(1 Suppl):I62-71</RefSource>
++          <PMID Version="1">11789633</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Epidemiol Rev. 2015 ;37:144-62</RefSource>
++          <PMID Version="1">25595168</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Br J Psychiatry. 2005 Jun;186:480-6</RefSource>
++          <PMID Version="1">15928358</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Qual Life Res. 2012 Feb;21(1):99-103</RefSource>
++          <PMID Version="1">21516356</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>J Clin Psychiatry. 2000;61 Suppl 5:4-12; discussion 13-4</RefSource>
++          <PMID Version="1">10761674</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Psychiatry. 2009 Fall;72(3):238-55</RefSource>
++          <PMID Version="1">19821647</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Mil Med. 2007 Feb;172(2):157-61</RefSource>
++          <PMID Version="1">17357770</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Psychol Serv. 2014 Nov;11(4):486-94</RefSource>
++          <PMID Version="1">25384001</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Br J Gen Pract. 2008 Jan;58(546):32-6</RefSource>
++          <PMID Version="1">18186994</PMID>
++        </CommentsCorrections>
++        <CommentsCorrections RefType="Cites">
++          <RefSource>Psychiatr Serv. 2011 Feb;62(2):135-42</RefSource>
++          <PMID Version="1">21285091</PMID>
++        </CommentsCorrections>
++      </CommentsCorrectionsList>
++      <OtherAbstract Type="Publisher" Language="spa">
++        <AbstractText><b>Planteamiento</b>: Está bien establecido que los veteranos que sufren de problemas de salud mental infraut
+ilizan los servicios de salud mental. <b>Objetivo</b>: Este estudio estaba dirigido a comprender más sobre las barreras que impiden
+que los veteranos busquen ayuda profesional y aquello que les facilita su búsqueda de ayuda profesional. También tenía como objetivo
+ explorar posibles mecanismos para mejorar la búsqueda de ayuda y las vías que llevan a dicha atención de los veteranos. <b>Método</
+b>: El estudio empleó un diseño cualitativo mediante el cual 17 veteranos, que habían asistido recientemente a servicios especializa
+dos de salud mental para veteranos, participaron en entrevistas semiestructuradas. Los datos resultantes se analizaron utilizando un
+a teoría fundamentada. <b>Resultados</b>: Los participantes describieron dos etapas distintas en su búsqueda de ayuda: búsqueda inic
+ial de ayuda; y vías del tratamiento. En cada etapa se identificaron las barreras específicas y los facilitadores para dicha búsqued
+a de ayuda. Las barreras iniciales incluyeron el reconocimiento de que existe un problema, el autoestigma y el estigma público antic
+ipado. Los facilitadores iniciales incluyeron estar en crisis, apoyo social, motivación y los medios de comunicación. Las barreras a
+ recibir tratamiento incluían factores prácticos y creencias negativas sobre los servicios de salud y los profesionales. Lo que faci
+litaba el recibir tratamiento incluía tener un diagnóstico, ser vistos en un servicio específico para veteranos y establecer una bue
+na relación terapéutica. Los participantes proporcionaron algunas sugerencias de intervenciones para mejorar la búsqueda de ayuda de
+ los veteranos en el futuro; estos se enfocaron en mejorar el conocimiento sobre las dificultades de salud mental. tanto de los vete
+ranos como el de los profesionales de la salud. <b>Conclusiones</b>: Este estudio identificó una serie de barreras y facilitadores q
+ue pueden influir en que los veteranos busquen ayuda de servicios profesionales para las dificultades de salud mental. Facilitadores
+ como llegar a un punto de crisis, el apoyo social, los medios de comunicación, tener un diagnóstico de TEPT y servicios de salud me
+ntal específicos para veteranos parecían ser importantes a la hora de enfrentarse a creencias estigmatizadas y de apoyar a los veter
+anos a implicarse en conductas de búsqueda de ayuda.</AbstractText>
++      </OtherAbstract>
++      <OtherAbstract Type="Publisher" Language="chi">
++        <AbstractText><b>背景：</b>承受着心理健康障碍的老兵对心理健康服务使用不足，这是普遍存在的。 <b>结论：</b>目标：本研究为了更
+好的理解阻碍老兵寻求更多专业帮助的原因，和能够帮助他们寻求专业帮助的因素。同时为了去探索促进老兵寻求帮助和获取关怀的潜在机制。 <b>方
+法：</b>本研究使用了质性研究方法，17名最近使用过老兵心理健康服务的老兵参加了半结构化访谈。根据扎根理论进行数据分析。 <b>结果：</b>参
+与者描述了两种截然不同的阶段：初始寻求帮助阶段，治疗进程阶段。我们发现了在不同的求助阶段的特定的障碍和促进因素。起始阶段的障碍包括：
+对出现问题的认知，自我污名效应和预想的公共污名效应。起始阶段的帮助因素有：处在危机中，社会支持，动机和媒体。治疗进程的障碍有：现实因
+素和对健康机构和专家的负面认识。治疗进程中的帮助因素有：获得诊断，在老兵服务机构治疗，建立良好的治疗关系。参与者提供了一些关于未来能
+够提高老兵寻求帮助的干预建议，这些建议聚焦于同时提高老兵和健康专家关于心理健康障碍的知识。 <b>结论：</b>这篇研究发现了一些影响老兵寻
+求专业心理健康服务的帮助的障碍和促进因素。帮助因素包括达到危机点，社会支持，媒体，被诊断为 PTSD，专门针对老兵的心理健康机构在对抗污
+名化信念的过程中起作用，并且支持老兵持续的寻求帮助。.</AbstractText>
++      </OtherAbstract>
++      <KeywordList Owner="NOTNLM">
++        <Keyword MajorTopicYN="N">Veterans</Keyword>
++        <Keyword MajorTopicYN="N">barriers</Keyword>
++        <Keyword MajorTopicYN="N">ex-service personnel</Keyword>
++        <Keyword MajorTopicYN="N">help-seeking</Keyword>
++        <Keyword MajorTopicYN="N">mental health</Keyword>
++        <Keyword MajorTopicYN="N">stigma</Keyword>
++        <Keyword MajorTopicYN="N">• This article aimed to understand why a vast majority of veterans suffering from mental health d
+ifficulties do not seek professional help. • Living with untreated mental health difficulties has significant negative implications
+for individuals, society and the economy. • During interviews with veterans suffering from mental health difficulties, we learned ab
+out a number of barriers which got in the way of them accessing help, and a number of enablers which allowed them to get the help th
+at they required.</Keyword>
++      </KeywordList>
++      <CoiStatement>No potential conflict of interest was reported by the authors.</CoiStatement>
++    </MedlineCitation>
++    <PubmedData>
++      <History>
++        <PubMedPubDate PubStatus="received">
++          <Year>2017</Year>
++          <Month>06</Month>
++          <Day>20</Day>
++        </PubMedPubDate>
++        <PubMedPubDate PubStatus="accepted">
++          <Year>2017</Year>
++          <Month>09</Month>
++          <Day>25</Day>
++        </PubMedPubDate>
++        <PubMedPubDate PubStatus="entrez">
++          <Year>2017</Year>
++          <Month>11</Month>
++          <Day>23</Day>
++          <Hour>6</Hour>
++          <Minute>0</Minute>
++        </PubMedPubDate>
++        <PubMedPubDate PubStatus="pubmed">
++          <Year>2017</Year>
++          <Month>11</Month>
++          <Day>23</Day>
++          <Hour>6</Hour>
++          <Minute>0</Minute>
++        </PubMedPubDate>
++        <PubMedPubDate PubStatus="medline">
++          <Year>2017</Year>
++          <Month>11</Month>
++          <Day>23</Day>
++          <Hour>6</Hour>
++          <Minute>1</Minute>
++        </PubMedPubDate>
++      </History>
++      <PublicationStatus>epublish</PublicationStatus>
++      <ArticleIdList>
++        <ArticleId IdType="pubmed">29163864</ArticleId>
++        <ArticleId IdType="doi">10.1080/20008198.2017.1389207</ArticleId>
++        <ArticleId IdType="pii">1389207</ArticleId>
++        <ArticleId IdType="pmc">PMC5687804</ArticleId>
++      </ArticleIdList>
++    </PubmedData>
++  </PubmedArticle>
++</PubmedArticleSet>
+diff --git a/test/test_PubMedParser.py b/test/test_PubMedParser.py
+new file mode 100644
+index 0000000..38718c5
+--- /dev/null
++++ b/test/test_PubMedParser.py
+@@ -0,0 +1,41 @@
++                paths.append(os.path.join(root,filename))
++
++    paths.sort()
++
++
++    pool = Pool(processes=PROCESSES)    # start with processors
++    print "Initialized with ", PROCESSES, "processes"
++    #result.get() needs global variable db now - that is why a line "db = options.database" is added in "__main__" - the variable d
+b cannot be given to __start_parser in map_async()
++    result = pool.map_async(_start_parser, paths[start:end])
++    res = result.get()
++    #without multiprocessing:
++    #for path in paths:
++    #    _start_parser(path)
++
++    print "######################"
++    print "###### Finished ######"
++    print "######################"
++
++
++if __name__ == "__main__":
++    from optparse import OptionParser
++
++    parser = OptionParser()
++    parser.add_option("-c", "--no_cleaning", dest="clean",
++                      action="store_false", default=True,
++                      help="Truncate the Database before running the parser (default: True).")
++    parser.add_option("-s", "--start",
++                      dest="start", default=0,
++                      help="All queued files are passed if no start and end parameter is set. Otherwise you can specify a start and
+ end o the queue. For example to split the parsing on several machines.")
++    parser.add_option("-e", "--end",
++                      dest="end", default=None,
++                      help="All queued files are passed if no start and end parameter is set. Otherwise you can specify a start and
+ end o the queue. For example to split the parsing on several machines.")
++    parser.add_option("-i", "--input", dest="medline_path",
++                      default='data/pancreatic_cancer/',
++                      help="specify the path to the medine XML-Files (default: data/pancreatic_cancer/)")
++    parser.add_option("-p", "--processes",
++                      dest="PROCESSES", default=2,
++                      help="How many processes should be used. (Default: 2)")
++    parser.add_option("-d", "--database",
++                      dest="database", default="pancreatic_cancer_db",
++                      help="What is the name of the database. (Default: pancreatic_cancer_db)")
++
++    (options, args) = parser.parse_args()
++    db = options.database
++    #log start time of programme:
++    start = time.asctime()
++    run(options.medline_path, options.clean, int(options.start), options.end, int(options.PROCESSES))
++    #end time programme
++    end = time.asctime()
++
++    print "programme started - " + start
++    print "programme ended - " + end
+diff --git a/test/README.md b/test/README.md
+new file mode 100644
+index 0000000..d9c0578
+--- /dev/null
++++ b/test/README.md
+@@ -0,0 +1,7 @@
++
++# How to run the tests
++
++1. Install pytest. For example, `conda install pytest` or `pip install pytest`.
++
++1. Execute the `py.test` command
++   (probably from the root folder, that is, where the `PubMedParser.py` is located).
+diff --git a/test/__init__.py b/test/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/test/resources/article-with-long-keyword/article-with-long-keyword.xml b/test/resources/article-with-long-keyword/artic
+le-with-long-keyword.xml
+new file mode 100644
+index 0000000..2c5a64d
+--- /dev/null
++++ b/test/resources/article-with-long-keyword/article-with-long-keyword.xml
+@@ -0,0 +1,276 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2018//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed
+_180101.dtd">
++<PubmedArticleSet>
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff
+diff --git a/test/README.md b/test/README.md
+index d9c0578..8a921bf 100644
+--- a/test/README.md
++++ b/test/README.md
+@@ -4,4 +4,4 @@
+ 1. Install pytest. For example, `conda install pytest` or `pip install pytest`.
+
+ 1. Execute the `py.test` command
+-   (probably from the root folder, that is, where the `PubMedParser.py` is located).
++   (probably from the root folder, that is, where the `PubMedParser.py` is located).
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff
+diff --git a/test/README.md b/test/README.md
+index d9c0578..35076cd 100644
+--- a/test/README.md
++++ b/test/README.md
+@@ -4,4 +4,5 @@
+ 1. Install pytest. For example, `conda install pytest` or `pip install pytest`.
+
+ 1. Execute the `py.test` command
+-   (probably from the root folder, that is, where the `PubMedParser.py` is located).
++   (probably from the root folder, that is, where the `PubMedParser.py` is located).
++
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff
+diff --git a/test/README.md b/test/README.md
+index d9c0578..8a921bf 100644
+--- a/test/README.md
++++ b/test/README.md
+@@ -4,4 +4,4 @@
+ 1. Install pytest. For example, `conda install pytest` or `pip install pytest`.
+
+ 1. Execute the `py.test` command
+-   (probably from the root folder, that is, where the `PubMedParser.py` is located).
++   (probably from the root folder, that is, where the `PubMedParser.py` is located).
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gs
+On branch article-with-long-keyword
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   test/README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gcam 'removed trailing whitespace'
+[article-with-long-keyword 1dac0d3] removed trailing whitespace
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git log
+commit 1dac0d31a42c95a7e3a0a9917c09bf81e417c24c (HEAD -> article-with-long-keyword)
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 11:24:15 2018 +0100
+
+    removed trailing whitespace
+
+commit 103aa967956cc6a1624a3c4c2f5422249f85df31
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 11:22:42 2018 +0100
+
+    Fix: the keyword is truncated to 500 characters.
+
+commit b8107fb38aee9400037c81cca74fa785435b54d9
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 11:21:59 2018 +0100
+
+    Cleaned up the test a bit.
+
+commit d67aba7c185bcd3242093ba87a53218e39f8a3ea
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:51:48 2018 +0100
+
+    ignore .condaauto
+
+commit ac1c0feefdd34bfb89c353d12e2c702760e1e1dd
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:48:43 2018 +0100
+
+    Added a failing test.
+
+    There is an XML which contains an article (PMID: 29163864)
+    with a keyword field that is longer than 500 chars:
+    ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/pubmed18n0931.xml.gz
+
+    This test uncovers this issue.
+
+commit eb67880005c157dc34fdef31f8f95ad0dc5f21c7
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:40:30 2018 +0100
+
+    ignoring IDE files
+commit 1dac0d31a42c95a7e3a0a9917c09bf81e417c24c (HEAD -> article-with-long-keyword)
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 11:24:15 2018 +0100
+
+    removed trailing whitespace
+
+commit 103aa967956cc6a1624a3c4c2f5422249f85df31
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 11:22:42 2018 +0100
+
+    Fix: the keyword is truncated to 500 characters.
+
+commit b8107fb38aee9400037c81cca74fa785435b54d9
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 11:21:59 2018 +0100
+
+    Cleaned up the test a bit.
+
+commit d67aba7c185bcd3242093ba87a53218e39f8a3ea
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:51:48 2018 +0100
+
+    ignore .condaauto
+
+commit ac1c0feefdd34bfb89c353d12e2c702760e1e1dd
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:48:43 2018 +0100
+
+    Added a failing test.
+
+    There is an XML which contains an article (PMID: 29163864)
+    with a keyword field that is longer than 500 chars:
+    ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/pubmed18n0931.xml.gz
+
+    This test uncovers this issue.
+
+commit eb67880005c157dc34fdef31f8f95ad0dc5f21c7
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:40:30 2018 +0100
+
+    ignoring IDE files
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ py.test
+======================================================= test session starts ========================================================
+platform linux2 -- Python 2.7.14, pytest-3.4.0, py-1.5.2, pluggy-0.6.0
+rootdir: /home/bacey/projects/PubMedPortable, inifile:
+collected 1 item
+
+test/test_PubMedParser.py F                                                                                                  [100%]
+
+============================================================= FAILURES =============================================================
+__________________________________________ test_article_with_long_keyword_can_be_imported __________________________________________
+
+capsys = <_pytest.capture.CaptureFixture object at 0x7f5bd266e890>
+
+    def test_article_with_long_keyword_can_be_imported(capsys):
+        # Name of that temporary test-database where the articles will be imported into, during the test-run.
+        PubMedParser.db = 'pubmed_test_db'
+
+        # Name of the folder containing those example XML files
+        # which will be imported into the temporary test-database during the test-run.
+        folder_with_example_xml_files = 'test/resources/article-with-long-keyword/'
+
+>       PubMedParser.run(folder_with_example_xml_files, clean=True, start=0, end=None, PROCESSES=1)
+
+test/test_PubMedParser.py:36:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+PubMedParser.py:677: in run
+    PubMedDB.create_tables(db)
+PubMedDB.py:734: in create_tables
+    engine, Base = init(db)
+PubMedDB.py:725: in init
+    Base.metadata.create_all(engine)
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/sql/schema.py:3695: in create_all
+    tables=tables)
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/engine/base.py:1855: in _run_visitor
+    with self._optional_conn_ctx_manager(connection) as conn:
+../../anaconda3/envs/pubmedportable/lib/python2.7/contextlib.py:17: in __enter__
+    return self.gen.next()
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/engine/base.py:1848: in _optional_conn_ctx_manager
+    with self.contextual_connect() as conn:
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/engine/base.py:2039: in contextual_connect
+    self._wrap_pool_connect(self.pool.connect, None),
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/engine/base.py:2078: in _wrap_pool_connect
+    e, dialect, self)
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/engine/base.py:1405: in _handle_dbapi_exception_noconnect
+ion
+    exc_info
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/util/compat.py:200: in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb)
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/engine/base.py:2074: in _wrap_pool_connect
+    return fn()
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/pool.py:376: in connect
+    return _ConnectionFairy._checkout(self)
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/pool.py:713: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/pool.py:480: in checkout
+    rec = pool._do_get()
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/pool.py:1060: in _do_get
+    self._dec_overflow()
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/util/langhelpers.py:60: in __exit__
+    compat.reraise(exc_type, exc_value, exc_tb)
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/pool.py:1057: in _do_get
+    return self._create_connection()
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/pool.py:323: in _create_connection
+    return _ConnectionRecord(self)
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/pool.py:449: in __init__
+    self.connection = self.__connect()
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/pool.py:607: in __connect
+    connection = self.__pool._invoke_creator(self)
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/engine/strategies.py:97: in connect
+    return dialect.connect(*cargs, **cparams)
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/sqlalchemy/engine/default.py:385: in connect
+    return self.dbapi.connect(*cargs, **cparams)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dsn = 'host=localhost password=parser user=parser dbname=pubmed_test_db', connection_factory = None, cursor_factory = None
+kwargs = {'database': 'pubmed_test_db', 'host': 'localhost', 'password': 'parser', 'user': 'parser'}, kwasync = {}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+
+        The connection parameters can be specified as a string:
+
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+
+        or using a set of keyword arguments:
+
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+
+        Or as a mix of both. The basic connection parameters are:
+
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+
+        if dsn is None and not kwargs:
+            raise TypeError('missing dsn and no parameters')
+
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+E       OperationalError: (psycopg2.OperationalError) FATAL:  database "pubmed_test_db" does not exist
+
+../../anaconda3/envs/pubmedportable/lib/python2.7/site-packages/psycopg2/__init__.py:130: OperationalError
+===================================================== 1 failed in 1.08 seconds =====================================================
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ man psql
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ sudo su - postgres
+postgres@sykacek-desktop:~$ createdb pubmed_test_db
+postgres@sykacek-desktop:~$ psql
+psql (10.1)
+Type "help" for help.
+
+postgres=# alter database pubmed_test_db owner to parser;
+ALTER DATABASE
+postgres=# \q
+postgres@sykacek-desktop:~$ exit
+logout
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ psql -h localhost -d pubmed_test_db -U parser -f create_sc
+hema.sql
+Password for user parser:
+CREATE SCHEMA
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ python PubMedDB.py -d pubmed_test_db
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ py.test
+======================================================= test session starts ========================================================
+platform linux2 -- Python 2.7.14, pytest-3.4.0, py-1.5.2, pluggy-0.6.0
+rootdir: /home/bacey/projects/PubMedPortable, inifile:
+collected 1 item
+
+test/test_PubMedParser.py .                                                                                                  [100%]
+
+===================================================== 1 passed in 3.58 seconds =====================================================
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gs
+On branch article-with-long-keyword
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   test/README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff
+diff --git a/test/README.md b/test/README.md
+index 8a921bf..a63c8cf 100644
+--- a/test/README.md
++++ b/test/README.md
+@@ -3,5 +3,23 @@
+
+ 1. Install pytest. For example, `conda install pytest` or `pip install pytest`.
+
++1. Create the `pubmed_test_db` database. This temporary test-database will hold
++   the articles which are created during the test-runs.
++
++   One way to create this test database is like this
++   (given that the PostgreSQL `parser` user already exists
++   with the `parser` password):
++
++   ```bash
++   $ sudo su - postgres
++   $ createdb pubmed_test_db
++   $ psql
++   postgres=# alter database pubmed_test_db owner to parser;
++   postgres=# \q
++   $ exit
++   $ psql -h localhost -d pubmed_test_db -U parser -f create_schema.sql
++   $ python PubMedDB.py -d pubmed_test_db
++   ```
++
+ 1. Execute the `py.test` command
+    (probably from the root folder, that is, where the `PubMedParser.py` is located).
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff
+diff --git a/test/README.md b/test/README.md
+index 8a921bf..659a1dd 100644
+--- a/test/README.md
++++ b/test/README.md
+@@ -3,5 +3,23 @@
+
+ 1. Install pytest. For example, `conda install pytest` or `pip install pytest`.
+
++1. Create the `pubmed_test_db` database. This temporary test-database will hold
++   the articles which are created during the test-runs.
++
++   One way to create this test database is like this
++   (given that the PostgreSQL `parser` user already exists
++   with the `parser` password):
++
++   ```bash
++   $ sudo su - postgres
++   $ createdb pubmed_test_db
++   $ psql
++   postgres=# alter database pubmed_test_db owner to parser;
++   postgres=# \q
++   $ exit
++   $ psql -h localhost -d pubmed_test_db -U parser -f create_schema.sql
++   $ python PubMedDB.py -d pubmed_test_db
++   ```
++
+ 1. Execute the `py.test` command
+    (probably from the root folder, that is, where the `PubMedParser.py` is located).
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gs
+On branch article-with-long-keyword
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   test/README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gcam 'Setup is needed before the tests can be run.'
+[article-with-long-keyword 239870e] Setup is needed before the tests can be run.
+ 1 file changed, 18 insertions(+)
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git log
+commit 239870e856ee92ec29b4a635005751edaee525cc (HEAD -> article-with-long-keyword)
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 11:38:27 2018 +0100
+
+    Setup is needed before the tests can be run.
+
+commit 1dac0d31a42c95a7e3a0a9917c09bf81e417c24c
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 11:24:15 2018 +0100
+
+    removed trailing whitespace
+
+commit 103aa967956cc6a1624a3c4c2f5422249f85df31
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 11:22:42 2018 +0100
+
+    Fix: the keyword is truncated to 500 characters.
+
+commit b8107fb38aee9400037c81cca74fa785435b54d9
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 11:21:59 2018 +0100
+
+    Cleaned up the test a bit.
+
+commit d67aba7c185bcd3242093ba87a53218e39f8a3ea
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:51:48 2018 +0100
+
+    ignore .condaauto
+
+commit ac1c0feefdd34bfb89c353d12e2c702760e1e1dd
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:48:43 2018 +0100
+
+    Added a failing test.
+
+    There is an XML which contains an article (PMID: 29163864)
+    with a keyword field that is longer than 500 chars:
+    ftp://ftp.ncbi.nlm.nih.gov/pubmed/updatefiles/pubmed18n0931.xml.gz
+
+    This test uncovers this issue.
+
+commit eb67880005c157dc34fdef31f8f95ad0dc5f21c7
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:40:30 2018 +0100
+
+    ignoring IDE files
+
+commit e383cfdc236929703b879e7834c58df10b396340
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:38:37 2018 +0100
+
+    The IDE removed the trailing spaces (as ordered by the settings in the .editorconfig file).
+
+commit b399b0d194fec9d4329f1536763a7002e4a14559
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:37:38 2018 +0100
+
+    added .editorconfig and .gitattributes
+
+commit e10658954c3e0d33c2acc93332798b37b6bc5947
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:36:47 2018 +0100
+
+    dos2unix PubMedParser.py
+
+commit b13fd7100f49c57e8c746240e204617554d09143
+Author: Bela Juhasz <juhasz.bela@gmail.com>
+Date:   Fri Feb 9 10:36:24 2018 +0100
+
+    chmod -x PubMedDB.py
+
+commit 6d41fc6e66d6306934663ca883a3bf2cedd60a95 (origin/master, origin/HEAD, master)
+Author: KerstenDoering <kersten.doering@gmail.com>
+Date:   Mon Feb 5 15:09:24 2018 +0100
+
+    Added null, unique, and length checks
+
+commit ec44eb31ad9f6356c4148274fdcfac720bf69d67
+Author: KerstenDoering <kersten.doering@gmail.com>
+Date:   Thu Jul 13 19:25:46 2017 +0200
+
+    issue #11 solved
+
+commit 6ed0d564e63102f06ed5681ef5001337879959ea
+Author: KerstenDoering <kersten.doering@gmail.com>
+Date:   Tue Nov 22 20:33:52 2016 +0100
+
+    Reference to PubMedPortable publication
+
+commit 8228af81a8ed4dca7fea0c4b5804600eb3c281e2
+Author: KerstenDoering <kersten.doering@gmail.com>
+Date:   Tue Nov 22 20:32:27 2016 +0100
+
+    Updated Docker documentation
+
+commit a334f81f4427391398a6568308d93a3e2f374f2a
+Author: KerstenDoering <kersten.doering@gmail.com>
+Date:   Sun Jul 24 15:18:49 2016 +0200
+
+    NER table for the wiki
+
+commit b52c73222d917d9adc340b1281741451a435763f
+Author: KerstenDoering <kersten.doering@gmail.com>
+Date:   Sun Jul 24 14:47:17 2016 +0200
+
+    NER table for the wiki
+
+commit d37609f2a9398b5b38c79ad5fd3e771becc6067b (origin/development, development)
+Author: KerstenDoering <kersten.doering@gmail.com>
+Date:   Sun Jul 24 13:28:54 2016 +0200
+
+    Lucene as an Alternative to Xapian
+
+commit ccd4d44a96e0ee590b32181670847f8760a177e0
+Author: KerstenDoering <kersten.doering@gmail.com>
+Date:   Sun Jul 24 12:27:25 2016 +0200
+
+    Documentation updated
+
+commit a0fa60fb597315896192df699c806e89b5ae610f
+Author: Kiran Telukunta Saraswathi <kiran.telukunta@indiayouth.info>
+Date:   Sun Jul 24 00:30:35 2016 +0200
+
+    * Wiki rst and html of NER table
+
+commit 8644115e0f7362ab661bba05a663cafed0a3c647
+Author: Kiran Telukunta <kiran@diazepam>
+Date:   Sat Jul 23 18:12:32 2016 +0200
+
+    * rst updated with NER
+
+commit e98adae5a2a1d2f9e4693244e553216ce84d4876
+Author: Kiran Telukunta Saraswathi <kiran.telukunta@indiayouth.info>
+Date:   Sat Jul 23 12:21:22 2016 +0200
+
+    * article_affiliation length limited
+
+commit 3d55ab15260c1e3026f7ad4bb102b5135c86ea20
+Author: Kiran Telukunta Saraswathi <kiran.telukunta@indiayouth.info>
+Date:   Sat Jul 16 15:54:37 2016 +0200
+
+    * Limited the variable length of ref_source in table tbl_comments_correction to 255
+
+commit 44cf5df7a96d47dce09ff8ef494601a68df69db9
+Author: Kiran Telukunta Saraswathi <kiran.telukunta@indiayouth.info>
+Date:   Fri Jul 15 12:09:11 2016 +0200
+
+    * suppl_mesh_name limited to 80 charachters
+
+commit 03d943aa95c72733564e3bb4f9d79078c49a4d6a
+Author: Kiran Telukunta Saraswathi <kiran.telukunta@indiayouth.info>
+Date:   Fri Jul 15 11:36:57 2016 +0200
+
+    * suppl_mesh_name limited to 80 charachters
+
+commit 791fec9dd7c1a638d1d185bd57cfdcabaaad62c1
+Author: Kiran Telukunta Saraswathi <kiran.telukunta@indiayouth.info>
+Date:   Fri Jul 15 10:51:20 2016 +0200
+
+    * Bug left over line removed
+
+commit d79e1bdc6715f7479fcee3a489545af5bff37187
+Merge: 26a4040 28ff693
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ gs
+On branch article-with-long-keyword
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        data/pubmed-2018-updatefiles/
+
+nothing added to commit but untracked files present (use "git add" to track)
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ joe .gitignore
+    IW   .gitignore                                                                                                Row 1    Col 1
+
+# Created by https://www.gitignore.io/api/linux,python
+
+### Linux ###
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+Not found
+File .gitignore not changed so no update needed
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ cd data
+(pubmedportable) [~/projects/PubMedPortable/data (article-with-long-keyword)]$ l
+total 228
+drwxr-xr-x  4 bacey bacey   4096 Feb  9 11:48 .
+drwxr-xr-x 16 bacey bacey   4096 Feb  9 11:40 ..
+-rw-r--r--  1 bacey bacey    574 Feb  9 09:21 efetch.sh
+-rw-r--r--  1 bacey bacey   3798 Feb  9 09:21 generate_efetch.py
+drwxr-xr-x  2 bacey bacey   4096 Feb  9 09:21 pancreatic_cancer_example
+drwxr-xr-x  2 bacey bacey   4096 Feb  9 11:48 pubmed-2018-updatefiles
+-rw-r--r--  1 bacey bacey 205046 Feb  9 09:21 pubmed_result.txt
+(pubmedportable) [~/projects/PubMedPortable/data (article-with-long-keyword)]$ ls pancreatic_cancer_example/
+medline_00000000.xml
+(pubmedportable) [~/projects/PubMedPortable/data (article-with-long-keyword)]$ gs
+On branch article-with-long-keyword
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        pubmed-2018-updatefiles/
+
+nothing added to commit but untracked files present (use "git add" to track)
+(pubmedportable) [~/projects/PubMedPortable/data (article-with-long-keyword)]$ git push
+fatal: The current branch article-with-long-keyword has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin article-with-long-keyword
+
+(pubmedportable) [~/projects/PubMedPortable/data (article-with-long-keyword)]$     git push --set-upstream origin article-with-long-
+keyword
+Counting objects: 44, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (43/43), done.
+Writing objects: 100% (44/44), 15.60 KiB | 2.23 MiB/s, done.
+Total 44 (delta 22), reused 0 (delta 0)
+remote: Resolving deltas: 100% (22/22), completed with 4 local objects.
+To https://github.com/bacey/PubMedPortable.git
+ * [new branch]      article-with-long-keyword -> article-with-long-keyword
+Branch 'article-with-long-keyword' set up to track remote branch 'article-with-long-keyword' from 'origin'.
+(pubmedportable) [~/projects/PubMedPortable/data (article-with-long-keyword)]$
+(pubmedportable) [~/projects/PubMedPortable/data (article-with-long-keyword)]$ cd ..
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff -w PubMedParser.py origin/master:PubMedParser.py
+fatal: origin/master:PubMedParser.py: no such path in the working tree.
+Use 'git <command> -- <path>...' to specify paths that do not exist locally.
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff -w PubMedParser.py..origin/master:PubMedParser.py
+
+fatal: Invalid object name 'PubMedParser.py..origin/master'.
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff -w PubMedParser.py PubMedDB.py
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ diff -w PubMedParser.py $(git show origin/master:PubMedPar
+ser.py)
+diff: invalid option -- '*'
+diff: Try 'diff --help' for more information.
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff -w article-with-long-keyword origin/master -- Pub
+MedParser.py
+diff --git a/PubMedParser.py b/PubMedParser.py
+index 5deec02..d6d2ddf 100644
+--- a/PubMedParser.py
++++ b/PubMedParser.py
+@@ -42,13 +42,6 @@ class MedlineParser:
+         self.session = Session()
+
+
+-    def shorten(self, string, max_length):
+-        if string is None or len(string) < max_length:
+-            return string
+-        else:
+-            return string[:max_length - 4] + '...'
+-
+-
+     def _parse(self):
+         _file = self.filepath
+
+@@ -614,7 +607,7 @@ class MedlineParser:
+                         else:
+                             continue
+                         DBKeyword = PubMedDB.Keyword()
+-                        DBKeyword.keyword = self.shorten(subelem.text, 500)
++                        DBKeyword.keyword = subelem.text^M
+                         #catch KeyError in case there is no MajorTopicYN attribute before committing DBCitation
+                         try:
+                             DBKeyword.keyword_major_yn = subelem.attrib["MajorTopicYN"]
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ git diff -w origin/master article-with-long-keyword -- Pub
+MedParser.py
+diff --git a/PubMedParser.py b/PubMedParser.py
+index d6d2ddf..5deec02 100644
+--- a/PubMedParser.py
++++ b/PubMedParser.py
+@@ -42,6 +42,13 @@ class MedlineParser:
+         self.session = Session()
+
+
++    def shorten(self, string, max_length):
++        if string is None or len(string) < max_length:
++            return string
++        else:
++            return string[:max_length - 4] + '...'
++
++
+     def _parse(self):
+         _file = self.filepath
+
+@@ -607,7 +614,7 @@ class MedlineParser:
+                         else:
+                             continue
+                         DBKeyword = PubMedDB.Keyword()
+-                        DBKeyword.keyword = subelem.text
++                        DBKeyword.keyword = self.shorten(subelem.text, 500)
+                         #catch KeyError in case there is no MajorTopicYN attribute before committing DBCitation
+                         try:
+                             DBKeyword.keyword_major_yn = subelem.attrib["MajorTopicYN"]
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$

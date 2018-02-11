@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE PubmedArticleSet PUBLIC "-//NLM//DTD PubMedArticle, 1st January 2018//EN" "https://dtd.nlm.nih.gov/ncbi/pubmed/out/pubmed_180101.dtd">
+<PubmedArticleSet>
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">9402755</PMID>
+      <DateCompleted>
+        <Year>1998</Year>
+        <Month>01</Month>
+        <Day>08</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2017</Year>
+        <Month>12</Month>
+        <Day>11</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Print">0006-2960</ISSN>
+          <JournalIssue CitedMedium="Print">
+            <Volume>36</Volume>
+            <Issue>48</Issue>
+            <PubDate>
+              <Year>1997</Year>
+              <Month>Dec</Month>
+              <Day>02</Day>
+            </PubDate>
+          </JournalIssue>
+          <Title>Biochemistry</Title>
+          <ISOAbbreviation>Biochemistry</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Mechanism of formation of novel covalent drug.DNA interstrand cross-links and monoadducts by enediyne antitumor antibiotics.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>14975-84</MedlinePgn>
+        </Pagination>
+        <Abstract>
+          <AbstractText>The potent enediyne antitumor antibiotic C1027 has been previously reported to induce novel DNA interstrand cross-links and drug monoadducts under anaerobic conditions [Xu et al. (1997) J. Am. Chem. Soc. 119, 1133-1134]. In the present study, we explored the mechanism of formation of these anaerobic DNA lesions. We found that, similar to the aerobic reaction, the diradical species of the activated drug initiates anaerobic DNA damage by abstracting hydrogen atoms from the C4', C1', and C5' positions of the A1, A2, and A3 nucleotides, respectively, in the most preferred 5'GTTA1T/5'ATA2A3C binding sequence. It is proposed that the newly generated deoxyribosyl radicals, which cannot undergo oxidation, likely add back onto the nearby unsaturated ring system of the postactivated enediyne core, inducing the formation of interstrand cross-links, connecting either A1 to A2 or A1 to A3, or drug monoadducts mainly on A2 or A3. Comparative studies with other enediynes, such as neocarzinostatin and calicheamicin gamma 1I under similar reaction conditions indicate that the anaerobic reaction process is a kinetically competitive one, depending on the proximity of the drug unsaturated ring system or dioxygen to the sugar radicals and their quenching by other hydrogen sources such as solvent or thiols. It was found that C1027 mainly generates interstrand cross-links, whereas most of the anaerobic lesions produced by neocarzinostatin are drug monoadducts. Calicheamicin gamma 1 (1) was found to be less efficient in producing both lesions. The anaerobic DNA lesions induced by enediyne antitumor antibiotics may have important implications for their potent cytotoxicity in the central regions of large tumors, where relative anaerobic conditions prevail.</AbstractText>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Xu</LastName>
+            <ForeName>Y J</ForeName>
+            <Initials>YJ</Initials>
+            <AffiliationInfo>
+              <Affiliation>Department of Biological Chemistry and Molecular Pharmacology, Harvard Medical School, Boston, Massachusetts 02115, USA.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Xi</LastName>
+            <ForeName>Z</ForeName>
+            <Initials>Z</Initials>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Zhen</LastName>
+            <ForeName>Y S</ForeName>
+            <Initials>YS</Initials>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Goldberg</LastName>
+            <ForeName>I H</ForeName>
+            <Initials>IH</Initials>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <GrantList CompleteYN="Y">
+          <Grant>
+            <GrantID>R01 GM110132</GrantID>
+            <Acronym>GM</Acronym>
+            <Agency>NIGMS NIH HHS</Agency>
+            <Country>United States</Country>
+          </Grant>
+          <Grant>
+            <GrantID>GM 53793</GrantID>
+            <Acronym>GM</Acronym>
+            <Agency>NIGMS NIH HHS</Agency>
+            <Country>United States</Country>
+          </Grant>
+        </GrantList>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D013487">Research Support, U.S. Gov't, P.H.S.</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>United States</Country>
+        <MedlineTA>Biochemistry</MedlineTA>
+        <NlmUniqueID>0370623</NlmUniqueID>
+        <ISSNLinking>0006-2960</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000617">Aminoglycosides</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000900">Anti-Bacterial Agents</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000903">Antibiotics, Antineoplastic</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D003432">Cross-Linking Reagents</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D018736">DNA Adducts</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D053281">Enediynes</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D005609">Free Radicals</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D009711">Nucleotides</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>108212-75-5</RegistryNumber>
+          <NameOfSubstance UI="C055955">calicheamicin gamma(1)I</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>120177-69-7</RegistryNumber>
+          <NameOfSubstance UI="C058024">C 1027</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>681HV46001</RegistryNumber>
+          <NameOfSubstance UI="D012266">Ribose</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>8FE7LTN8XE</RegistryNumber>
+          <NameOfSubstance UI="D008920">Misonidazole</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>9014-02-2</RegistryNumber>
+          <NameOfSubstance UI="D009353">Zinostatin</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000617" MajorTopicYN="Y">Aminoglycosides</DescriptorName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D000693" MajorTopicYN="N">Anaerobiosis</DescriptorName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D000900" MajorTopicYN="N">Anti-Bacterial Agents</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="Y">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D000903" MajorTopicYN="N">Antibiotics, Antineoplastic</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="Y">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D003432" MajorTopicYN="N">Cross-Linking Reagents</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="Y">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D018736" MajorTopicYN="N">DNA Adducts</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="Y">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D004249" MajorTopicYN="N">DNA Damage</DescriptorName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D053281" MajorTopicYN="N">Enediynes</DescriptorName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D005609" MajorTopicYN="N">Free Radicals</DescriptorName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D008920" MajorTopicYN="N">Misonidazole</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="N">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D009711" MajorTopicYN="N">Nucleotides</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="N">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D012266" MajorTopicYN="N">Ribose</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="N">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D009353" MajorTopicYN="N">Zinostatin</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="N">chemistry</QualifierName>
+        </MeshHeading>
+      </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="pubmed">
+          <Year>1997</Year>
+          <Month>12</Month>
+          <Day>24</Day>
+        </PubMedPubDate>
+        <PubMedPubDate PubStatus="medline">
+          <Year>1997</Year>
+          <Month>12</Month>
+          <Day>24</Day>
+          <Hour>0</Hour>
+          <Minute>1</Minute>
+        </PubMedPubDate>
+        <PubMedPubDate PubStatus="entrez">
+          <Year>1997</Year>
+          <Month>12</Month>
+          <Day>24</Day>
+          <Hour>0</Hour>
+          <Minute>0</Minute>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">9402755</ArticleId>
+        <ArticleId IdType="doi">10.1021/bi972101o</ArticleId>
+        <ArticleId IdType="pii">bi972101o</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+
+  <PubmedArticle>
+    <MedlineCitation Status="MEDLINE" Owner="NLM">
+      <PMID Version="1">9402755</PMID>
+      <DateCompleted>
+        <Year>1998</Year>
+        <Month>01</Month>
+        <Day>08</Day>
+      </DateCompleted>
+      <DateRevised>
+        <Year>2017</Year>
+        <Month>12</Month>
+        <Day>12</Day>
+      </DateRevised>
+      <Article PubModel="Print">
+        <Journal>
+          <ISSN IssnType="Print">0006-2960</ISSN>
+          <JournalIssue CitedMedium="Print">
+            <Volume>36</Volume>
+            <Issue>48</Issue>
+            <PubDate>
+              <Year>1997</Year>
+              <Month>Dec</Month>
+              <Day>02</Day>
+            </PubDate>
+          </JournalIssue>
+          <Title>Biochemistry</Title>
+          <ISOAbbreviation>Biochemistry</ISOAbbreviation>
+        </Journal>
+        <ArticleTitle>Mechanism of formation of novel covalent drug.DNA interstrand cross-links and monoadducts by enediyne antitumor antibiotics.</ArticleTitle>
+        <Pagination>
+          <MedlinePgn>14975-84</MedlinePgn>
+        </Pagination>
+        <Abstract>
+          <AbstractText>The potent enediyne antitumor antibiotic C1027 has been previously reported to induce novel DNA interstrand cross-links and drug monoadducts under anaerobic conditions [Xu et al. (1997) J. Am. Chem. Soc. 119, 1133-1134]. In the present study, we explored the mechanism of formation of these anaerobic DNA lesions. We found that, similar to the aerobic reaction, the diradical species of the activated drug initiates anaerobic DNA damage by abstracting hydrogen atoms from the C4', C1', and C5' positions of the A1, A2, and A3 nucleotides, respectively, in the most preferred 5'GTTA1T/5'ATA2A3C binding sequence. It is proposed that the newly generated deoxyribosyl radicals, which cannot undergo oxidation, likely add back onto the nearby unsaturated ring system of the postactivated enediyne core, inducing the formation of interstrand cross-links, connecting either A1 to A2 or A1 to A3, or drug monoadducts mainly on A2 or A3. Comparative studies with other enediynes, such as neocarzinostatin and calicheamicin gamma 1I under similar reaction conditions indicate that the anaerobic reaction process is a kinetically competitive one, depending on the proximity of the drug unsaturated ring system or dioxygen to the sugar radicals and their quenching by other hydrogen sources such as solvent or thiols. It was found that C1027 mainly generates interstrand cross-links, whereas most of the anaerobic lesions produced by neocarzinostatin are drug monoadducts. Calicheamicin gamma 1 (1) was found to be less efficient in producing both lesions. The anaerobic DNA lesions induced by enediyne antitumor antibiotics may have important implications for their potent cytotoxicity in the central regions of large tumors, where relative anaerobic conditions prevail.</AbstractText>
+        </Abstract>
+        <AuthorList CompleteYN="Y">
+          <Author ValidYN="Y">
+            <LastName>Xu</LastName>
+            <ForeName>Y J</ForeName>
+            <Initials>YJ</Initials>
+            <AffiliationInfo>
+              <Affiliation>Department of Biological Chemistry and Molecular Pharmacology, Harvard Medical School, Boston, Massachusetts 02115, USA.</Affiliation>
+            </AffiliationInfo>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Xi</LastName>
+            <ForeName>Z</ForeName>
+            <Initials>Z</Initials>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Zhen</LastName>
+            <ForeName>Y S</ForeName>
+            <Initials>YS</Initials>
+          </Author>
+          <Author ValidYN="Y">
+            <LastName>Goldberg</LastName>
+            <ForeName>I H</ForeName>
+            <Initials>IH</Initials>
+          </Author>
+        </AuthorList>
+        <Language>eng</Language>
+        <GrantList CompleteYN="Y">
+          <Grant>
+            <GrantID>GM 53793</GrantID>
+            <Acronym>GM</Acronym>
+            <Agency>NIGMS NIH HHS</Agency>
+            <Country>United States</Country>
+          </Grant>
+        </GrantList>
+        <PublicationTypeList>
+          <PublicationType UI="D016428">Journal Article</PublicationType>
+          <PublicationType UI="D013487">Research Support, U.S. Gov't, P.H.S.</PublicationType>
+        </PublicationTypeList>
+      </Article>
+      <MedlineJournalInfo>
+        <Country>United States</Country>
+        <MedlineTA>Biochemistry</MedlineTA>
+        <NlmUniqueID>0370623</NlmUniqueID>
+        <ISSNLinking>0006-2960</ISSNLinking>
+      </MedlineJournalInfo>
+      <ChemicalList>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000617">Aminoglycosides</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000900">Anti-Bacterial Agents</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D000903">Antibiotics, Antineoplastic</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D003432">Cross-Linking Reagents</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D018736">DNA Adducts</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D053281">Enediynes</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D005609">Free Radicals</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>0</RegistryNumber>
+          <NameOfSubstance UI="D009711">Nucleotides</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>108212-75-5</RegistryNumber>
+          <NameOfSubstance UI="C055955">calicheamicin gamma(1)I</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>120177-69-7</RegistryNumber>
+          <NameOfSubstance UI="C058024">C 1027</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>681HV46001</RegistryNumber>
+          <NameOfSubstance UI="D012266">Ribose</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>8FE7LTN8XE</RegistryNumber>
+          <NameOfSubstance UI="D008920">Misonidazole</NameOfSubstance>
+        </Chemical>
+        <Chemical>
+          <RegistryNumber>9014-02-2</RegistryNumber>
+          <NameOfSubstance UI="D009353">Zinostatin</NameOfSubstance>
+        </Chemical>
+      </ChemicalList>
+      <CitationSubset>IM</CitationSubset>
+      <MeshHeadingList>
+        <MeshHeading>
+          <DescriptorName UI="D000617" MajorTopicYN="Y">Aminoglycosides</DescriptorName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D000693" MajorTopicYN="N">Anaerobiosis</DescriptorName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D000900" MajorTopicYN="N">Anti-Bacterial Agents</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="Y">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D000903" MajorTopicYN="N">Antibiotics, Antineoplastic</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="Y">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D003432" MajorTopicYN="N">Cross-Linking Reagents</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="Y">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D018736" MajorTopicYN="N">DNA Adducts</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="Y">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D004249" MajorTopicYN="N">DNA Damage</DescriptorName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D053281" MajorTopicYN="N">Enediynes</DescriptorName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D005609" MajorTopicYN="N">Free Radicals</DescriptorName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D008920" MajorTopicYN="N">Misonidazole</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="N">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D009711" MajorTopicYN="N">Nucleotides</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="N">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D012266" MajorTopicYN="N">Ribose</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="N">chemistry</QualifierName>
+        </MeshHeading>
+        <MeshHeading>
+          <DescriptorName UI="D009353" MajorTopicYN="N">Zinostatin</DescriptorName>
+          <QualifierName UI="Q000737" MajorTopicYN="N">chemistry</QualifierName>
+        </MeshHeading>
+      </MeshHeadingList>
+    </MedlineCitation>
+    <PubmedData>
+      <History>
+        <PubMedPubDate PubStatus="pubmed">
+          <Year>1997</Year>
+          <Month>12</Month>
+          <Day>24</Day>
+        </PubMedPubDate>
+        <PubMedPubDate PubStatus="medline">
+          <Year>1997</Year>
+          <Month>12</Month>
+          <Day>24</Day>
+          <Hour>0</Hour>
+          <Minute>1</Minute>
+        </PubMedPubDate>
+        <PubMedPubDate PubStatus="entrez">
+          <Year>1997</Year>
+          <Month>12</Month>
+          <Day>24</Day>
+          <Hour>0</Hour>
+          <Minute>0</Minute>
+        </PubMedPubDate>
+      </History>
+      <PublicationStatus>ppublish</PublicationStatus>
+      <ArticleIdList>
+        <ArticleId IdType="pubmed">9402755</ArticleId>
+        <ArticleId IdType="doi">10.1021/bi972101o</ArticleId>
+        <ArticleId IdType="pii">bi972101o</ArticleId>
+      </ArticleIdList>
+    </PubmedData>
+  </PubmedArticle>
+</PubmedArticleSet>

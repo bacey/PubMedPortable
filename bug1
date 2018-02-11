@@ -1,0 +1,14 @@
+PubMedParser.py:147: Warning:    
+Unbekannter Fehler:(raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely) (psycopg2.DataError) value too long for type character varying(20)                                               
+ [SQL: 'INSERT INTO pubmed.tbl_grant (fk_pmid, grantid, acronym, agency, country) VALUES (%(fk_pmid)s, %(grantid)s, %(acronym)s, %(agency)s, %(country)s) RETURNING pubmed.tbl_grant.id'] [parameters: {'acronym': 'Howard Hughes Medical Institute', 'country': 'United States', 'agency': 'Howard Hughes Medical Institute', 'fk_pmid': 27241849, 'grantid': None}]                                       
+  warnings.warn("\nUnbekannter Fehler:"+str(e), Warning)          
+tmp/pubmed-baseline-files/pubmed18n0873.xml.gz  pid: 8316         
+Traceback (most recent call last):                                
+  File "PubMedParser.py", line 744, in <module>                   
+    run(options.medline_path, options.clean, int(options.start), options.end, int(options.PROCESSES))                               
+  File "PubMedParser.py", line 707, in run                        
+    res = result.get()           
+  File "/home/bacey/anaconda3/envs/pubmedportable/lib/python2.7/multiprocessing/pool.py", line 572, in get                          
+    raise self._value            
+sqlalchemy.exc.DataError: (psycopg2.DataError) value too long for type character varying(20)                                        
+ [SQL: 'INSERT INTO pubmed.tbl_grant (fk_pmid, grantid, acronym, agency, country) VALUES (%(fk_pmid)s, %(grantid)s, %(acronym)s, %(agency)s, %(country)s) RETURNING pubmed.tbl_grant.id'] [parameters: {'acronym': 'Howard Hughes Medical Institute', 'country': 'United States', 'agency': 'Howard Hughes Medical Institute', 'fk_pmid': 27241849, 'grantid': None}]  
