@@ -23,6 +23,14 @@ psql import_using_pubmedportable
 
 INSERT INTO pubmed.tbl_comments_correction (fk_pmid, ref_type, ref_source, pmid_version) VALUES (28191255, 'Cites', 'J Ultrasound Med. 2015 Jun;34(6):937-47', '26014312');
 
+
+[~]$ psql import_using_pubmedportable                             
+psql (10.1)                      
+Type "help" for help.            
+import_using_pubmedportable=# INSERT INTO pubmed.tbl_comments_correction (fk_pmid, ref_type, ref_source, pmid_version) VALUES (28191255, 'Cites', 'J Ultrasound Med. 2015 Jun;34(6):937-47', '26014312');                                                               
+ERROR:  could not read block 47039 in file "base/18707/33182": Input/output error                                                   
+
+
 mc copy:
 Cannot read source file "/var/lib/postgr~se/18707/33228" 
 │ Cannot read source file "/var/lib/postgr~se/18707/33182" │
