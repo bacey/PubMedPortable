@@ -1,0 +1,28 @@
+
+37-48 (12, 277 Mb):
+programme started - Fri Feb  9 13:15:53 2018
+programme ended - Fri Feb  9 14:03:43 2018
+
+49-60 (12, 313 Mb):
+programme started - Fri Feb  9 14:12:23 2018                      
+programme ended - Fri Feb  9 16:05:13 2018
+
+
+Initialized with  4 processes    
+tmp/pubmed-baseline-files/pubmed18n0850.xml.gz  pid: 11482        
+tmp/pubmed-baseline-files/pubmed18n0851.xml.gz  pid: 11483        
+tmp/pubmed-baseline-files/pubmed18n0852.xml.gz  pid: 11484        
+tmp/pubmed-baseline-files/pubmed18n0853.xml.gz  pid: 11485        
+tmp/pubmed-baseline-files/pubmed18n0854.xml.gz  pid: 11482        
+tmp/pubmed-baseline-files/pubmed18n0855.xml.gz  pid: 11485        
+tmp/pubmed-baseline-files/pubmed18n0856.xml.gz  pid: 11484        
+tmp/pubmed-baseline-files/pubmed18n0857.xml.gz  pid: 11483        
+######################           
+###### Finished ######           
+######################           
+programme started - Fri Feb  9 23:04:36 2018                      
+programme ended - Sat Feb 10 00:31:02 2018
+
+
+\dt pubmed.* 
+select count(*) from pubmed.tbl_medline_citation;

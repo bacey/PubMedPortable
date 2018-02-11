@@ -1,0 +1,78 @@
+
+I could not process the tmp/pubmed-baseline-files/pubmed18n0894.xml file:
+
+(pubmedportable) [~/projects/PubMedPortable (article-with-long-keyword)]$ tmp/start-import-of-pubmed-baseline-files.sh              
+Initialized with  3 processes
+tmp/pubmed-baseline-files/pubmed18n0894.xml     pid: 8164
+PubMedParser.py:147: Warning: 
+Unbekannter Fehler:(raised as a result of Query-invoked autoflush; consider using a session.no_autoflush block if this flush is occurring prematurely) (psycopg2.InternalError) could not read block 47103 in file "base/18707/33182": read only 4096 of 8192 bytes
+ [SQL: 'INSERT INTO pubmed.tbl_comments_correction (fk_pmid, ref_type, ref_source, pmid_version) VALUES (%(fk_pmid)s, %(ref_type)s, %(ref_source)s, %(pmid_version)s) RETURNING pubmed.tbl_comments_correction.id'] [parameters: {'ref_type': 'Cites', 'ref_source': 'Mol Phys. 2016;114(23 ):3533-3545', 'fk_pmid': 28089272, 'pmid_version': '28502996'}]
+  warnings.warn("\nUnbekannter Fehler:"+str(e), Warning)
+Traceback (most recent call last):
+  File "PubMedParser.py", line 744, in <module>
+    run(options.medline_path, options.clean, int(options.start), options.end, int(options.PROCESSES))
+  File "PubMedParser.py", line 707, in run
+    res = result.get()
+  File "/home/bacey/anaconda3/envs/pubmedportable/lib/python2.7/multiprocessing/pool.py", line 572, in get
+    raise self._value
+sqlalchemy.exc.InternalError: (psycopg2.InternalError) could not read block 47103 in file "base/18707/33182": read only 4096 of 8192 bytes
+ [SQL: 'INSERT INTO pubmed.tbl_comments_correction (fk_pmid, ref_type, ref_source, pmid_version) VALUES (%(fk_pmid)s, %(ref_type)s, %(ref_source)s, %(pmid_version)s) RETURNING pubmed.tbl_comments_correction.id'] [parameters: {'ref_type': 'Cites', 'ref_source': 'Mol Phys. 2016;114(23 ):3533-3545', 'fk_pmid': 28089272, 'pmid_version': '28502996'}]
+
+
+psql import_using_pubmedportable
+
+INSERT INTO pubmed.tbl_comments_correction (fk_pmid, ref_type, ref_source, pmid_version) VALUES (28191255, 'Cites', 'J Ultrasound Med. 2015 Jun;34(6):937-47', '26014312');
+
+mc copy:
+Cannot read source file "/var/lib/postgr~se/18707/33228" 
+│ Cannot read source file "/var/lib/postgr~se/18707/33182" │
+Cannot read source file "/var/lib/postgr~se/18707/33164"
+Cannot read source file "/var/lib/postgr~se/18707/33179"
+
+postgres@sykacek-desktop:~$ reindexdb -av                                                                                           
+reindexdb: reindexing database "import_using_pubmedportable"      
+INFO:  index "pg_class_oid_index" was reindexed                   
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.09 s       
+INFO:  index "pg_class_relname_nsp_index" was reindexed           
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.02 s       
+INFO:  index "pg_class_tblspc_relfilenode_index" was reindexed    
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.02 s       
+INFO:  table "pg_catalog.pg_class" was reindexed                  
+INFO:  index "tbl_chemical_pkey" was reindexed                    
+DETAIL:  CPU: user: 1.82 s, system: 0.51 s, elapsed: 3.82 s       
+INFO:  index "ix_pubmed_tbl_chemical_name_of_substance" was reindexed                                                               
+DETAIL:  CPU: user: 4.84 s, system: 0.39 s, elapsed: 6.48 s       
+INFO:  index "ix_pubmed_tbl_chemical_substance_ui" was reindexed  
+DETAIL:  CPU: user: 5.84 s, system: 0.35 s, elapsed: 7.41 s       
+INFO:  index "pg_toast_30192_index" was reindexed                 
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.12 s       
+INFO:  table "pubmed.tbl_chemical" was reindexed                  
+INFO:  index "pg_statistic_relid_att_inh_index" was reindexed     
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.08 s       
+INFO:  index "pg_toast_2619_index" was reindexed                  
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.06 s       
+INFO:  table "pg_catalog.pg_statistic" was reindexed              
+INFO:  index "pg_type_oid_index" was reindexed                    
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.03 s       
+INFO:  index "pg_type_typname_nsp_index" was reindexed            
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.04 s       
+INFO:  table "pg_catalog.pg_type" was reindexed                   
+INFO:  index "pg_policy_oid_index" was reindexed                  
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.02 s       
+INFO:  index "pg_policy_polrelid_polname_index" was reindexed     
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.02 s       
+INFO:  table "pg_catalog.pg_policy" was reindexed                 
+INFO:  index "pg_authid_rolname_index" was reindexed              
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.02 s       
+INFO:  index "pg_authid_oid_index" was reindexed                  
+DETAIL:  CPU: user: 0.00 s, system: 0.00 s, elapsed: 0.02 s       
+INFO:  table "pg_catalog.pg_authid" was reindexed                 
+reindexdb: reindexing of database "import_using_pubmedportable" failed: ERROR:  could not read block 46080 in file "base/18707/33164": Input/output error            
+postgres@sykacek-desktop:~$      
+
+postgres@sykacek-desktop:~$ pg_dumpall -c > pg-dumpall-2018-02-11 
+pg_dump: Dumping the contents of table "tbl_author" failed: PQgetResult() failed.
+pg_dump: Error message from server: ERROR:  could not read block 46080 in file "base/18707/33164": Input/output error
+pg_dump: The command was: COPY pubmed.tbl_author (id, fk_pmid, last_name, fore_name, initials, suffix, collective_name) TO stdout;
+pg_dumpall: pg_dump failed on database "import_using_pubmedportable", exiting
+postgres@sykacek-desktop:~$ man pg_dump                           
